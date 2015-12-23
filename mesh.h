@@ -7,17 +7,21 @@
 
 class Vertex {
   public:
-    Vertex(const glm::vec3& pos, const glm::vec2& texCoord) {
+    Vertex(const glm::vec3& pos, const glm::vec2& texCoord, 
+           const glm::vec3& normal = glm::vec3(0,0,0)) {
       this->pos = pos;
       this->texCoord = texCoord;
+      this->normal = normal;
     }
 
     inline glm::vec3* GetPos() { return &pos; }
     inline glm::vec2* GetTexCoord() { return &texCoord; }
+    inline glm::vec3* GetNormal() { return & normal; }
   protected:
   private:
     glm::vec3 pos;      // Position of vertex
     glm::vec2 texCoord; // Texture coordinate (pixel) to map to vertex
+    glm::vec3 normal;   // Up direction on a surface
 };
 
 class Mesh {
@@ -40,6 +44,7 @@ class Mesh {
     enum {
       POSITION_VB,
       TEXCOORD_VB,
+      NORMAL_VB,
 
       INDEX_VB,
 
