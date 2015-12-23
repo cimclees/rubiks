@@ -1,4 +1,4 @@
-# sandbox
+# rubiks
 
 OpenGL Practice
 

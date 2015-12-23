@@ -1,9 +1,10 @@
-sandbox: sandbox.o display.o shader.o mesh.o stb_image.o texture.o transform.o
-	g++ -g -Wall -std=c++11 -o sandbox sandbox.o display.o shader.o mesh.o \
-stb_image.o texture.o transform.o -l SDL2 -l GL -l GLEW 
+sandbox: rubiks.o display.o shader.o mesh.o stb_image.o texture.o transform.o \
+camera.o
+	g++ -g -Wall -std=c++11 -o rubiks rubiks.o display.o shader.o mesh.o \
+stb_image.o texture.o transform.o camera.o -l SDL2 -l GL -l GLEW 
 
-sandbox.o: sandbox.cc display.h shader.h mesh.h texture.h transform.h
-	g++ -g -Wall -std=c++11 -c sandbox.cc
+rubiks.o: rubiks.cc display.h shader.h mesh.h texture.h transform.h camera.h
+	g++ -g -Wall -std=c++11 -c rubiks.cc
 
 display.o: display.cc display.h
 	g++ -g -Wall -std=c++11 -c display.cc
@@ -23,5 +24,8 @@ texture.o: texture.cc texture.h stb_image.h
 transform.o: transform.cc transform.h
 	g++ -g -Wall -std=c++11 -c transform.cc
 
+camera.o: camera.cc camera.h
+	g++ -g -Wall -std=c++11 -c camera.cc
+
 clean:
-	rm *.o sandbox
+	rm *.o rubiks
