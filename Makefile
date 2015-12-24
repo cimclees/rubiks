@@ -1,9 +1,10 @@
-sandbox: rubiks.o display.o shader.o mesh.o stb_image.o texture.o transform.o \
+rubiks: rubiks.o display.o shader.o mesh.o stb_image.o texture.o transform.o \
 camera.o obj_loader.o
 	g++ -g -Wall -std=c++11 -o rubiks rubiks.o display.o shader.o mesh.o \
 stb_image.o texture.o transform.o camera.o obj_loader.o -l SDL2 -l GL -l GLEW 
 
-rubiks.o: rubiks.cc display.h shader.h mesh.h texture.h transform.h camera.h
+rubiks.o: rubiks.cc display.h shader.h mesh.h texture.h transform.h camera.h \
+block.h
 	g++ -g -Wall -std=c++11 -c rubiks.cc
 
 display.o: display.cc display.h

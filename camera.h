@@ -13,7 +13,10 @@ class Camera{
       m_forward = glm::vec3(0,0,1);
       m_up = glm::vec3(0,1,0);
     }
-    
+
+    inline glm::vec3& GetPos() { return m_position; }
+    inline glm::vec3& GetFor() { return m_forward; }
+
     inline glm::mat4 GetViewProjection() const {
       return m_perspective * glm::lookAt(m_position, 
                                          m_position + m_forward, m_up);
