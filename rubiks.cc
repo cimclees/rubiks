@@ -10,58 +10,33 @@
 #include <glm/glm.hpp>
 #include <math.h>
 
-#include <iostream>
-
 #define WIDTH 800
 #define HEIGHT 600
-
 
 void rotate(Block* blocks[3][3][3], int z = 0) {
   
   for (int x = 0; x < 3; x++) {
     for (int y = 0; y < 3; y++) {
      
-      double hyp = pow(blocks[x][y][z]->GetPos().x, 2) + 
-                   pow(blocks[x][y][z]->GetPos().y, 2);
-      
-      // std::cout << "angle: " <<  << std::endl;
-
-      /* 
-      int yNegSwitch = 1;
-      if (blocks[x][y][z]->GetPos().y > 0 ||
-          (abs(blocks[x][y][z]->GetPos().y) < 0.001 
-           &&  blocks[x][y][z]->GetPos().x < 0)) {
-
-        blocks[x][y][z]->GetPos().x += 0.01;
-        yNegSwitch = 1;
-      } else {
-        blocks[x][y][z]->GetPos().x -= 0.01;
-        yNegSwitch = -1;
-      }
-      
-      blocks[x][y][z]->GetPos().y = yNegSwitch * sqrt(hyp - pow(blocks[x][y][z]->GetPos().x, 2));
-      */ 
-      
       blocks[x][y][z]->GetRot().z += 0.01;
-      // std::cout << blocks[x][y][z]->GetRot().z << std::endl;
       
-      if (blocks[x][y][z]->GetPos().y > 0 || (blocks[x][y][z]->GetPos().y == 0 
-                                              && blocks[x][y][z]->GetPos().x < 0)) {
-
-        blocks[x][y][z]->GetPos().y = hyp * (sin(blocks[x][y][z]->GetRot().z - 0.01) -
-                                             sin(blocks[x][y][z]->GetRot().z));
+      if (x == 1 && y == 1) {
+        // Do Nothing
+      } else {
+        float hyp = sqrt(pow(blocks[x][y][z]->GetPos().x, 2) + 
+                         pow(blocks[x][y][z]->GetPos().y, 2));
         
-        blocks[x][y][z]->GetPos().x = hyp * (cos(blocks[x][y][z]->GetRot().z) -
-                                             cos(blocks[x][y][z]->GetRot().z - 0.01));
+        if (blocks[x][y][z]->GetPos().x < 0) {
+          hyp = hyp * -1;
+        }
+
+        float theta1 = atan(blocks[x][y][z]->GetPos().y / blocks[x][y][z]->GetPos().x);
+        
+        blocks[x][y][z]->GetPos().x = hyp * cos( theta1 + 0.01 );
+        blocks[x][y][z]->GetPos().y = hyp * sin( theta1 + 0.01 );
       
-        } else {
-
-      }
-
-
-   
-
-
+      } 
+    
     }
   }
 }
@@ -77,7 +52,7 @@ int main() {
     for (int y = 0; y < 3; y++) {
       for (int x = 0; x < 3; x++) {
         blocks[x][y][z] = new Block("./res/block_uv_1.png", 
-                                    glm::vec3(2*(x - 1), 2*(y - 1), 2*z),
+                                    glm::vec3(2*(x - 1), 2*(y - 1), 2*(z - 1)),
                                     glm::vec3(0, 0, 0));
       }
     }
