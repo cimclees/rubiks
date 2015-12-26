@@ -32,7 +32,7 @@ camera.o: camera.cc camera.h
 obj_loader.o: obj_loader.cc obj_loader.h
 	g++ -g -Wall -std=c++11 -c obj_loader.cc
 
-cube.o: cube.cc cube.h block.h texture.h
+cube.o: cube.cc cube.h block.h texture.h shader.h transform.h camera.h mesh.h
 	g++ -g -Wall -std=c++11 -c cube.cc
 
 clean:

@@ -44,18 +44,7 @@ int main() {
 
     cube.Rotate(Z, 2);
 
-    for (int z = 0; z < 3; z++) {
-      for (int y = 0; y < 3; y++) {
-        for (int x = 0; x < 3; x++) {
-          shader.Bind();
-          cube.GetTex(x, y, z).Bind(0);
-          transform.SetPos( cube.GetPos(x, y, z) );
-          transform.SetRot( cube.GetRot(x, y, z) );
-          shader.Update(transform, camera);
-          blockMesh.Draw();
-        }
-      }
-    }
+    cube.Draw(shader, transform, camera, blockMesh);
 
     display.Update();
     

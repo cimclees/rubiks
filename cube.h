@@ -3,6 +3,10 @@
 
 #include "block.h"
 #include "texture.h"
+#include "shader.h"
+#include "transform.h"
+#include "camera.h"
+#include "mesh.h"
 
 enum Dim {
   X = 0,
@@ -15,6 +19,8 @@ class Cube {
     Cube(int size);
 
     void Rotate(Dim axis, int n = 0);
+    
+    void Draw(Shader &shader, Transform &transform, Camera &camera, Mesh &mesh);
     
     inline Texture& GetTex(int x, int y, int z) { 
       return blocks[x][y][z]->GetTex(); 

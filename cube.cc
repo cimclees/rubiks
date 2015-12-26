@@ -87,6 +87,22 @@ void Cube::Rotate(Dim axis, int n) {
   }
 }
 
+void Cube::Draw(Shader &shader, Transform &transform, 
+                Camera &camera, Mesh &mesh) {
+  for (int z = 0; z < size; z++) {
+    for (int y = 0; y < size; y++) {
+      for (int x = 0; x < size; x++) {
+        shader.Bind();
+        this->GetTex(x, y, z).Bind(0);
+        transform.SetPos( this->GetPos(x, y, z) );
+        transform.SetRot( this->GetRot(x, y, z) );
+        shader.Update(transform, camera);
+        mesh.Draw();
+      }
+    }
+  }
+}
+
 Cube::~Cube() {
   for (int z = 0; z < this->size; z++) {
     for (int y = 0; y < this->size; y++) {
