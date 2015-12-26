@@ -42,7 +42,7 @@ int main() {
     camera.GetFor().x = -sinCounter;
     camera.GetFor().z = -cosCounter;
 
-    cube.Rotate();
+    cube.Rotate(Z, 2);
 
     for (int z = 0; z < 3; z++) {
       for (int y = 0; y < 3; y++) {

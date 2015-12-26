@@ -4,10 +4,17 @@
 #include "block.h"
 #include "texture.h"
 
+enum Dim {
+  X = 0,
+  Y = 1,
+  Z = 2
+};
+
 class Cube {
   public:
     Cube(int size);
-    void Rotate(int z = 0);
+
+    void Rotate(Dim axis, int n = 0);
     
     inline Texture& GetTex(int x, int y, int z) { 
       return blocks[x][y][z]->GetTex(); 
