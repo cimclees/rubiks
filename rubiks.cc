@@ -21,13 +21,14 @@ int main() {
      
   Shader shader("./res/basicShader");
   
-  Camera camera(glm::vec3(0,2,-15), 70.0f, ((float) WIDTH) / HEIGHT, 
+  Camera camera(glm::vec3(0,2,-20), 70.0f, ((float) WIDTH) / HEIGHT, 
                 0.01f, 1000.0f);
   
   Transform transform;
 
   Cube cube(3);
-
+  cube.SetRotation(X, 1, true);
+  
   float counter = 0.0f;
 
   while (!display.IsClosed()) {
@@ -35,15 +36,17 @@ int main() {
 
     float sinCounter = sinf(counter);
     float cosCounter = cosf(counter);
-    
+    /* 
     camera.GetPos().x = 20 * sinCounter;
     camera.GetPos().z = 20 * cosCounter;
-    
+   
     camera.GetFor().x = -sinCounter;
     camera.GetFor().z = -cosCounter;
+    */
+    cube.UpdateRotation();
 
-    cube.Rotate(Z, 2);
-
+    cube.SetRotation(Y, 2, true);
+    
     cube.Draw(shader, transform, camera, blockMesh);
 
     display.Update();

@@ -18,7 +18,11 @@ class Cube {
   public:
     Cube(int size);
 
-    void Rotate(Dim axis, int n = 0);
+    void SetRotation(Dim axis, int n, bool clockwise);
+
+    void SetRandRotation();
+    
+    void UpdateRotation();
     
     void Draw(Shader &shader, Transform &transform, Camera &camera, Mesh &mesh);
     
@@ -37,6 +41,11 @@ class Cube {
   private:
     int size;
     Block* blocks[3][3][3];
+
+    bool currRotating;
+    Dim  currRotateAxis;
+    int  currRotateN;
+    bool currRotateClockwise;
 };
 
 #endif // CUBE_H
