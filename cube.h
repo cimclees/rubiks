@@ -32,7 +32,7 @@ class Cube {
     inline glm::vec3& GetPos(int x, int y, int z) { 
       return blocks[x][y][z]->GetPos(); 
     }
-    inline glm::vec3& GetRot(int x, int y, int z) { 
+    inline glm::mat4& GetRot(int x, int y, int z) { 
       return blocks[x][y][z]->GetRot(); 
     }
 
@@ -46,6 +46,7 @@ class Cube {
     Dim  currRotateAxis;
     int  currRotateN;
     bool currRotateClockwise;
+    int  currRotateSteps;
 };
 
 #endif // CUBE_H

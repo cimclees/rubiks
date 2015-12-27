@@ -27,7 +27,7 @@ int main() {
   Transform transform;
 
   Cube cube(3);
-  cube.SetRotation(X, 1, true);
+  cube.SetRandRotation();
   
   float counter = 0.0f;
 
@@ -36,16 +36,16 @@ int main() {
 
     float sinCounter = sinf(counter);
     float cosCounter = cosf(counter);
-    /* 
+     
     camera.GetPos().x = 20 * sinCounter;
     camera.GetPos().z = 20 * cosCounter;
    
     camera.GetFor().x = -sinCounter;
     camera.GetFor().z = -cosCounter;
-    */
+    
     cube.UpdateRotation();
 
-    cube.SetRotation(Y, 2, true);
+    cube.SetRandRotation();
     
     cube.Draw(shader, transform, camera, blockMesh);
 
