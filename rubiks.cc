@@ -21,6 +21,8 @@
 #define WIDTH 800
 #define HEIGHT 600
 
+#define MOUSE_SENS 0.005f
+
 /**
  * Function to position and orient a camera.
  *
@@ -92,8 +94,11 @@ int main() {
         }
         case SDL_MOUSEMOTION: {
           if (rightClick) {
-            horizOffset += (event.motion.xrel * -0.005f);
-            vertOffset  += (event.motion.yrel * 0.005f);
+            horizOffset += (event.motion.xrel * -MOUSE_SENS);
+            if ((event.motion.yrel < 0 && sinf(vertOffset) > (-PI / 4.0f)) ||
+                (event.motion.yrel > 0 && sinf(vertOffset) < (PI / 4.0f))) {
+              vertOffset  += (event.motion.yrel * MOUSE_SENS);
+            }
           }
           break;
         }

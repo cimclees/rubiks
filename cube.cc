@@ -8,11 +8,9 @@
  * Rubik's cube.
  */
 
-#include "cube.h"
 #include <cmath>
 #include <cstdlib>
-
-const float PI = 3.141592653f;
+#include "cube.h"
 
 Cube::Cube(int size = 3) {
   this->size = size;
