@@ -1,7 +1,18 @@
+/**
+ * @file cube.cc
+ * @author Charles Ian Mclees
+ *  
+ * @section DESCRIPTION
+ *
+ * This file contains the implementation of an object representing a 
+ * Rubik's cube.
+ */
+
 #include "cube.h"
 #include <cmath>
 #include <cstdlib>
-#include <iostream>
+
+const float PI = 3.141592653f;
 
 Cube::Cube(int size = 3) {
   this->size = size;
@@ -11,7 +22,7 @@ Cube::Cube(int size = 3) {
   this->currRotateClockwise = true;
   this->currRotateSteps = 0;
 
-  // this->blocks = new Block* blocks[size][size][size];
+  // Create blocks on cube.
   for (int z = 0; z < size; z++) {
     for (int y = 0; y < size; y++) {
       for (int x = 0; x < size; x++) {
@@ -41,12 +52,11 @@ void Cube::SetRandRotation() {
 }
 
 void Cube::UpdateRotation() {
-
   if (currRotating) {
     int x_min = 0, y_min = 0, z_min = 0;
     int x_max = 2, y_max = 2, z_max = 2;
     
-    // Choose correct blocks to rotate 
+    // Choose correct blocks to rotate.
     switch(currRotateAxis) {
       case X: {
         x_min = currRotateN;
@@ -65,48 +75,38 @@ void Cube::UpdateRotation() {
       }
     }
     
-    // bool rotationComplete = false;
-    // Rotate blocks
+    // Rotate blocks.
     for (int x = x_min; x <= x_max; x++) {
       for (int y = y_min; y <= y_max; y++) {
         for (int z = z_min; z <= z_max; z++) {
-          // Choose position and rotation values to be modified
           
-          float PI = 3.141592653f;
-          // Update relevant rotation value
+          // Determine angle of rotation.
           float deltaRot = (PI / 2) / 300.0f;
           if (!currRotateClockwise) {
             deltaRot *= -1.0f;
           }
-          //*rot += deltaRot;
           
-          // float* rot;
+          // Choose position values to be modified and update rotation.
           float* adj;
           float* opp;
           bool notCenter;
           switch(currRotateAxis) {
             case X: {
-              // rot = &blocks[x][y][z]->GetRot().x;
               blocks[x][y][z]->RotX(deltaRot);
-
               adj = &blocks[x][y][z]->GetPos().y;
               opp = &blocks[x][y][z]->GetPos().z;
               notCenter = (y != 1 || z != 1);
               break;
             }
             case Y: {
-              // rot = &blocks[x][y][z]->GetRot().y;
               blocks[x][y][z]->RotY(deltaRot);
-
               adj = &blocks[x][y][z]->GetPos().z;
               opp = &blocks[x][y][z]->GetPos().x;
               notCenter = (x != 1 || z != 1);
               break;
             }
             case Z: {
-              // rot = &blocks[x][y][z]->GetRot().z;
               blocks[x][y][z]->RotZ(deltaRot);
-
               adj = &blocks[x][y][z]->GetPos().x;
               opp = &blocks[x][y][z]->GetPos().y;
               notCenter = (x != 1 || y != 1);
@@ -114,7 +114,7 @@ void Cube::UpdateRotation() {
             }
           }
 
-          // Update relevant position values
+          // Update relevant position values.
           if (notCenter) {
             float hyp = sqrt(pow(*adj, 2) + pow(*opp, 2));
             if (*adj < 0) {
@@ -124,30 +124,18 @@ void Cube::UpdateRotation() {
             *adj = hyp * cos( theta1 + deltaRot );
             *opp = hyp * sin( theta1 + deltaRot );
           }
-          
-          /*
-          if (fabs(fabs(*rot) - (PI / 2.0f)) < 0.0001f ||
-              fabs(fabs(*rot) - PI) < 0.0001f ||
-              fabs(fabs(*rot) - (3.0f * PI / 2.0f)) < 0.0001f) {
-
-            rotationComplete = true;
-
-          } else if (fabs(fabs(*rot) - (2.0f * PI)) < 0.0001f) {
-            rotationComplete = true;
-            *rot = 0.0f;
-          }
-          */
-
         }
       }
     }
-
+    
+    // Keep track of amount of rotation.
     currRotateSteps--;
           
-    // Check rotation completion
+    // Check rotation completion.
     if (currRotateSteps == 0) {
       this->currRotating = false;
-      
+ 
+      // Update block positions on cube.     
       Block* tempBlocks[3][3][3];
       for (int x = x_min; x <= x_max; x++) {
         for (int y = y_min; y <= y_max; y++) {
@@ -178,12 +166,9 @@ void Cube::UpdateRotation() {
                 break;
               }
             }
-           
-
           }
         }
       }
-      
       for (int x = x_min; x <= x_max; x++) {
         for (int y = y_min; y <= y_max; y++) {
           for (int z = z_min; z <= z_max; z++) {
@@ -191,15 +176,12 @@ void Cube::UpdateRotation() {
           }
         }
       }
-
-
     }
   }
 }
 
 void Cube::Draw(Shader &shader, Transform &transform, 
-                Camera &camera, Mesh &mesh) {
-  
+                Camera &camera, Mesh &mesh) { 
   for (int z = 0; z < size; z++) {
     for (int y = 0; y < size; y++) {
       for (int x = 0; x < size; x++) {
@@ -207,7 +189,6 @@ void Cube::Draw(Shader &shader, Transform &transform,
         this->GetTex(x, y, z).Bind(0);
         transform.SetPos( this->GetPos(x, y, z) );
         transform.SetRot( this->GetRot(x, y, z) );
-
         shader.Update(transform, camera);
         mesh.Draw();
       }

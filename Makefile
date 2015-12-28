@@ -1,11 +1,10 @@
 rubiks: rubiks.o display.o shader.o mesh.o stb_image.o texture.o transform.o \
-camera.o obj_loader.o cube.o
+camera.o obj_loader.o block.o cube.o
 	g++ -g -Wall -std=c++11 -o rubiks rubiks.o display.o shader.o mesh.o \
-stb_image.o texture.o transform.o camera.o obj_loader.o cube.o \
+stb_image.o texture.o transform.o camera.o obj_loader.o block.o cube.o \
 -l SDL2 -l GL -l GLEW 
 
-rubiks.o: rubiks.cc display.h shader.h mesh.h texture.h transform.h camera.h \
-block.h cube.h
+rubiks.o: rubiks.cc display.h shader.h mesh.h transform.h camera.h cube.h
 	g++ -g -Wall -std=c++11 -c rubiks.cc
 
 display.o: display.cc display.h
@@ -31,6 +30,9 @@ camera.o: camera.cc camera.h
 
 obj_loader.o: obj_loader.cc obj_loader.h
 	g++ -g -Wall -std=c++11 -c obj_loader.cc
+
+block.o: block.cc block.h texture.h
+	g++ -g -Wall -std=c++11 -c block.cc
 
 cube.o: cube.cc cube.h block.h texture.h shader.h transform.h camera.h mesh.h
 	g++ -g -Wall -std=c++11 -c cube.cc

@@ -1,3 +1,13 @@
+/**
+ * @file block.h
+ * @author Charles Ian Mclees
+ *  
+ * @section DESCRIPTION
+ *
+ * This file contains the declerations of an object representing a single block
+ * of a Rubik's Cube.
+ */
+
 #ifndef BLOCK_H
 #define BLOCK_H
 
@@ -8,45 +18,61 @@
 
 class Block {
   public:
+    /**
+     * Constructor for a generic block.
+     *
+     * @param fileName Path of the texture file to associate with the block.
+     * @param pos Initial position of the block.
+     * @param rot Initial rotation of the block.
+     */
     Block(const std::string& fileName, const glm::vec3& pos, 
-          const glm::vec3& rot):
-      m_texture(fileName),
-      m_position(pos),
-      m_rotation() {
-      
-      glm::mat4 rotXMatrix = glm::rotate(rot.x, glm::vec3(1,0,0));
-      glm::mat4 rotYMatrix = glm::rotate(rot.y, glm::vec3(0,1,0));
-      glm::mat4 rotZMatrix = glm::rotate(rot.z, glm::vec3(0,0,1));
-
-      m_rotation = rotZMatrix * rotYMatrix * rotXMatrix;
-    }
+          const glm::vec3& rot);
     
-    inline void RotX(const float& angle) {
-      glm::mat4 rotXMatrix = glm::rotate(angle, glm::vec3(1,0,0));
-      m_rotation = rotXMatrix * m_rotation;
-    }
+    /**
+     * Rotate a block along the x-axis, about its position.
+     *
+     * @param angle Amount of rotation.
+     */
+    void RotX(const float& angle);
 
-    inline void RotY(const float& angle) {
-      glm::mat4 rotYMatrix = glm::rotate(angle, glm::vec3(0,1,0));
-      m_rotation = rotYMatrix * m_rotation;
-    }
+    /**
+     * Rotate a block along the y-axis, about its position.
+     *
+     * @param angle Amount of rotation.
+     */
+    void RotY(const float& angle);
 
-    inline void RotZ(const float& angle) {
-      glm::mat4 rotZMatrix = glm::rotate(angle, glm::vec3(0,0,1));
-      m_rotation = rotZMatrix * m_rotation;
-    }
+    /**
+     * Rotate a block along the z-axis, about its position.
+     *
+     * @param angle Amount of rotation.
+     */
+    void RotZ(const float& angle);
 
+    /**
+     * Get the texture associated with a block.
+     *
+     * @return The associated texture object.
+     */
     inline Texture& GetTex() { return m_texture; }
+
+    /**
+     * Get the position of a block.
+     *
+     * @return The position.
+     */
     inline glm::vec3& GetPos() { return m_position; }
-
+    
+    /**
+     * Get the rotation matrix of a block.
+     *
+     * @return The rotation matrix.
+     */
     inline glm::mat4& GetRot() { return m_rotation; }
-
-    ~Block() {}
   protected:
   private:
     Texture m_texture;
     glm::vec3 m_position;
-
     glm::mat4 m_rotation; 
 };
 
