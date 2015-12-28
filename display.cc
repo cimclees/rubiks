@@ -47,14 +47,9 @@ bool Display::IsClosed() {
   return m_isClosed;
 }
 
-void Display::Update() {
+void Display::Update(bool quit) {
   SDL_GL_SwapWindow(m_window);
-
-  SDL_Event e;
-
-  while (SDL_PollEvent(&e)) {
-    if (e.type == SDL_QUIT) {
-      m_isClosed = true;
-    }
+  if (quit) {
+    m_isClosed = true;
   }
 }

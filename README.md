@@ -1,6 +1,7 @@
 # rubiks
 
-This is a Rubik's Cube application I am developing to learn/practice OpenGL.
+This is a Rubik's Cube application I am developing to learn/practice the basics
+of game programming using OpenGL, SDL, etc.
 
 Much of the OpenGL code is adapted from a tutorial made by 'thebennybox': 
 https://www.youtube.com/channel/UCnlpv-hhcsAtEHKR2y2fW4Q

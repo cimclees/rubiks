@@ -7,9 +7,9 @@
  * This file contains the main function for a Rubik's Cube game.
  */
 
-#include <iostream>
 #include <GL/glew.h>
 #include <glm/glm.hpp>
+#include <SDL2/SDL.h>
 #include "display.h"
 #include "mesh.h"
 #include "shader.h"
@@ -21,6 +21,31 @@
 #define WIDTH 800
 #define HEIGHT 600
 
+/**
+ * Function to position and orient a camera.
+ *
+ * @param position
+ * @param forward
+ * @param horizOffset
+ * @param vertOffset
+ */
+void positionCam(glm::vec3& position, glm::vec3& forward,
+                 const float& horizOffset, const float& vertOffset) {
+    float sinHoriz = sinf(horizOffset);
+    float cosHoriz = cosf(horizOffset);
+    position.x = 20 * sinHoriz;
+    position.z = 20 * cosHoriz;
+    forward.x = -sinHoriz;
+    forward.z = -cosHoriz;
+    
+    float sinVert = sinf(vertOffset);
+    position.y = 20 * sinVert;
+    forward.y = -sinVert;
+}
+
+/**
+ * Main function to run a Rubik's Cube game.
+ */
 int main() {
   // Open a window.
   Display display(WIDTH, HEIGHT, "Rubik's Cube");
@@ -29,38 +54,65 @@ int main() {
   //
   Shader shader("./res/basicShader");
   // Create a camera object to manipulate positional perspective.
-  Camera camera(glm::vec3(0,2,-20), 70.0f, ((float) WIDTH) / HEIGHT, 
+  float horizOffset = 0.0f;
+  float vertOffset  = 0.0f;
+  Camera camera(glm::vec3(0,0,0), 70.0f, ((float) WIDTH) / HEIGHT, 
                 0.01f, 1000.0f);
+
   // Create a transform object to perform rotational and positional transforms
   // on block objects.
   Transform transform;
   // Create a cube object of size 3x3x3.
   Cube cube(3);
 
-  cube.SetRotation(X, 0, true);
+  cube.SetRandRotation();
   
-  float counter = 0.0f;
+  bool quit = false;
+  bool rightClick = false;
   // Iterate over drawn frames.
   while (!display.IsClosed()) {
     display.Clear(0.0f, 0.15f, 0.3f, 1.0f);
     
-    // Change camera location.
-    float sinCounter = sinf(counter);
-    float cosCounter = cosf(counter);
-    counter += 0.01f;
-    camera.GetPos().x = 20 * sinCounter;
-    camera.GetPos().z = 20 * cosCounter;
-    camera.GetFor().x = -sinCounter;
-    camera.GetFor().z = -cosCounter;
+    // Change camera position and orientation.
+    positionCam(camera.GetPos(), camera.GetFor(), horizOffset, vertOffset);
     
     // Continue any current cube animations.
     cube.UpdateRotation();
 
-    cube.SetRotation(X, 0, true);
+    cube.SetRandRotation();
     
     cube.Draw(shader, transform, camera, blockMesh);
 
-    display.Update();
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) {
+      switch (event.type) { 
+        case SDL_QUIT: {
+          quit = true;
+          break;
+        }
+        case SDL_MOUSEMOTION: {
+          if (rightClick) {
+            horizOffset += (event.motion.xrel * -0.005f);
+            vertOffset  += (event.motion.yrel * 0.005f);
+          }
+          break;
+        }
+        case SDL_MOUSEBUTTONDOWN: {
+          if (event.button.button == SDL_BUTTON_RIGHT) {
+            rightClick = true;
+          }
+          break;
+        }
+        case SDL_MOUSEBUTTONUP: {
+          if (event.button.button == SDL_BUTTON_RIGHT) {
+            rightClick = false;
+          }
+          break;
+        }
+      }
+    }
+
+    display.Update(quit);
   }
   return 0;
 }
