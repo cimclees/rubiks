@@ -17,8 +17,6 @@
 #include "transform.h"
 #include "cube.h"
 
-#include <iostream>
-
 // Window size
 #define WIDTH 800
 #define HEIGHT 600
@@ -28,10 +26,10 @@
 /**
  * Function to position and orient a camera.
  *
- * @param position
- * @param forward
- * @param horizOffset
- * @param vertOffset
+ * @param position Camera postion vector to be set.
+ * @param forward Camera forward vector to be set.
+ * @param horizOffset Value used to compute position on x and z axes.
+ * @param vertOffset  Value used to compuet position on y axis.
  */
 void positionCam(glm::vec3& position, glm::vec3& forward,
                  const float& horizOffset, const float& vertOffset) {
@@ -48,6 +46,49 @@ void positionCam(glm::vec3& position, glm::vec3& forward,
 }
 
 /**
+ * Function to choose correct rotation to make on X or Z axes depending on
+ * camera orientation and carry out that rotation.
+ *
+ * @param absZgreaterX The dimension of rotation to be used when the absolute
+ *   value of the z component of the forward vector of the camera is greater
+ *   than the absolute value of the x component of the camera's forward vector.
+ * @param ZgreatX True if rotation to be clockwise when the value of
+ *   the z component of the forward vector of the camera is greater than the 
+ *   absolute value of the x component of the camera's forward vector.
+ * @param XgreatZ True if rotation to be clockwise when the value of
+ *   the x component of the forward vector of the camera is greater than the 
+ *   absolute value of the z component of the camera's forward vector.
+ * @param camera Camera object used to determine proper roation.
+ * @param cube Cube on which to make rotation.
+ */
+void RotateXZ(Dim absZgreaterX, bool ZgreatX, bool XgreatZ, 
+              Camera& camera, Cube& cube) {
+  Dim absXgreaterZ;
+  int absZgreaterXn;
+  int absXgreaterZn;
+
+  if (absZgreaterX == Z) {
+    absZgreaterXn = cube.GetSelected().z;
+    absXgreaterZ = X;
+    absXgreaterZn = cube.GetSelected().x;
+  } else {
+    absZgreaterXn = cube.GetSelected().x;
+    absXgreaterZ = Z;
+    absXgreaterZn = cube.GetSelected().z;
+  }
+
+  if (camera.GetFor().z > fabs(camera.GetFor().x)) {
+    cube.SetRotation(absZgreaterX, absZgreaterXn, ZgreatX); 
+  } else if (camera.GetFor().z < -1.0f * fabs(camera.GetFor().x)) {
+    cube.SetRotation(absZgreaterX, absZgreaterXn, !ZgreatX);
+  } else if (camera.GetFor().x > fabs(camera.GetFor().z)) {
+    cube.SetRotation(absXgreaterZ, absXgreaterZn, XgreatZ);
+  } else if (camera.GetFor().x < -1.0f * fabs(camera.GetFor().z)) {
+    cube.SetRotation(absXgreaterZ, absXgreaterZn, !XgreatZ);
+  }
+}
+
+/**
  * Main function to run a Rubik's Cube game.
  */
 int main() {
@@ -56,7 +97,7 @@ int main() {
   Display display(WIDTH, HEIGHT, "Rubik's Cube");
   // Load 3D data for a block model.
   Mesh blockMesh("./res/block.obj");
-  //
+  // Initialize shader.
   Shader shader("./res/basicShader");
   // Create a camera object to manipulate positional perspective.
   float horizOffset = 0.0f;
@@ -88,7 +129,7 @@ int main() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
       switch (event.type) { 
-        case SDL_QUIT: {
+        case SDL_QUIT: {  // Window closed.
           quit = true;
           break;
         }
@@ -107,51 +148,19 @@ int main() {
               break;
             }
             case (SDLK_RIGHT): {
-              if (camera.GetFor().z > fabs(camera.GetFor().x)) {
-                cube.SetRotation(Z, cube.GetSelected().z, true); 
-              } else if (camera.GetFor().z < -1.0f * fabs(camera.GetFor().x)) {
-                cube.SetRotation(Z, cube.GetSelected().z, false);
-              } else if (camera.GetFor().x > fabs(camera.GetFor().z)) {
-                cube.SetRotation(X, cube.GetSelected().x, true);
-              } else if (camera.GetFor().x < -1.0f * fabs(camera.GetFor().z)) {
-                cube.SetRotation(X, cube.GetSelected().x, false);
-              }
+              RotateXZ(Z, true, true, camera, cube);
               break;
             }
             case (SDLK_LEFT): {
-              if (camera.GetFor().z > fabs(camera.GetFor().x)) {
-                cube.SetRotation(Z, cube.GetSelected().z, false); 
-              } else if (camera.GetFor().z < -1.0f * fabs(camera.GetFor().x)) {
-                cube.SetRotation(Z, cube.GetSelected().z, true);
-              } else if (camera.GetFor().x > fabs(camera.GetFor().z)) {
-                cube.SetRotation(X, cube.GetSelected().x, false);
-              } else if (camera.GetFor().x < -1.0f * fabs(camera.GetFor().z)) {
-                cube.SetRotation(X, cube.GetSelected().x, true);
-              }
+              RotateXZ(Z, false, false, camera, cube);
               break;
             }
             case (SDLK_UP): {
-              if (camera.GetFor().z > fabs(camera.GetFor().x)) {
-                cube.SetRotation(X, cube.GetSelected().x, true); 
-              } else if (camera.GetFor().z < -1.0f * fabs(camera.GetFor().x)) {
-                cube.SetRotation(X, cube.GetSelected().x, false);
-              } else if (camera.GetFor().x > fabs(camera.GetFor().z)) {
-                cube.SetRotation(Z, cube.GetSelected().z, false);
-              } else if (camera.GetFor().x < -1.0f * fabs(camera.GetFor().z)) {
-                cube.SetRotation(Z, cube.GetSelected().z, true);
-              }
+              RotateXZ(X, true, false, camera, cube);
               break;
             }
             case (SDLK_DOWN): {
-              if (camera.GetFor().z > fabs(camera.GetFor().x)) {
-                cube.SetRotation(X, cube.GetSelected().x, false); 
-              } else if (camera.GetFor().z < -1.0f * fabs(camera.GetFor().x)) {
-                cube.SetRotation(X, cube.GetSelected().x, true);
-              } else if (camera.GetFor().x > fabs(camera.GetFor().z)) {
-                cube.SetRotation(Z, cube.GetSelected().z, true);
-              } else if (camera.GetFor().x < -1.0f * fabs(camera.GetFor().z)) {
-                cube.SetRotation(Z, cube.GetSelected().z, false);
-              }
+              RotateXZ(X, false, true, camera, cube);
               break;
             }
           }
@@ -186,7 +195,6 @@ int main() {
             int x = 0;
             int y = 0;
             int z = 0;
-            int checks = 0;
 
             // Get close to cube
             while (fabs(currPoint.x) > 3.1f &&
@@ -201,7 +209,6 @@ int main() {
                               ||  fabs(currPoint.y) < 3.2f
                               ||  fabs(currPoint.z) < 3.2f)) {
 
-              checks++;
               currPoint.x += delta.x;
               currPoint.y += delta.y;
               currPoint.z += delta.z;
@@ -213,7 +220,6 @@ int main() {
                         && fabs(cube.GetPos(x, y, z).y - currPoint.y) < 1.0f
                         && fabs(cube.GetPos(x, y, z).z - currPoint.z) < 1.0f) {
                       found = true;
-                      std::cout << "found: " << checks << std::endl;
                       cube.GetSelected() = glm::vec3(x, y, z);
                     }
                   }
@@ -222,7 +228,6 @@ int main() {
             }
 
             if (!found) {
-              std::cout << "not found: " << checks << std::endl;
               cube.GetSelected() = glm::vec3(-1, -1, -1);
             }
           }
