@@ -226,7 +226,7 @@ void Cube::Draw(Shader &shader, Transform &transform,
         transform.SetRot( this->GetRot(x, y, z) );
         
         if (this->GetSelected() == glm::vec3(x, y, z)) {
-          transform.SetScale( glm::vec3(1.5f, 1.5f, 1.5f) );
+          transform.SetScale( glm::vec3(1.2f, 1.2f, 1.2f) );
         } else {
           transform.SetScale( glm::vec3(1.0f, 1.0f, 1.0f) );
         }
