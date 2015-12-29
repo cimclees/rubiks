@@ -51,6 +51,7 @@ void positionCam(glm::vec3& position, glm::vec3& forward,
  * Main function to run a Rubik's Cube game.
  */
 int main() {
+  srand(time(NULL));
   // Open a window.
   Display display(WIDTH, HEIGHT, "Rubik's Cube");
   // Load 3D data for a block model.
@@ -97,16 +98,15 @@ int main() {
               cube.SetRandRotation();
               break;
             }
-            case (SDLK_RIGHT): {
+            case (SDLK_PERIOD): {
               cube.SetRotation(Y, cube.GetSelected().y, true);
               break;
             }
-            case (SDLK_LEFT): {
+            case (SDLK_COMMA): {
               cube.SetRotation(Y, cube.GetSelected().y, false);
               break;
             }
-            case (SDLK_PERIOD): {
-              
+            case (SDLK_RIGHT): {
               if (camera.GetFor().z > fabs(camera.GetFor().x)) {
                 cube.SetRotation(Z, cube.GetSelected().z, true); 
               } else if (camera.GetFor().z < -1.0f * fabs(camera.GetFor().x)) {
@@ -116,11 +116,9 @@ int main() {
               } else if (camera.GetFor().x < -1.0f * fabs(camera.GetFor().z)) {
                 cube.SetRotation(X, cube.GetSelected().x, false);
               }
-
               break;
             }
-            case (SDLK_COMMA): {
-              
+            case (SDLK_LEFT): {
               if (camera.GetFor().z > fabs(camera.GetFor().x)) {
                 cube.SetRotation(Z, cube.GetSelected().z, false); 
               } else if (camera.GetFor().z < -1.0f * fabs(camera.GetFor().x)) {
@@ -130,12 +128,9 @@ int main() {
               } else if (camera.GetFor().x < -1.0f * fabs(camera.GetFor().z)) {
                 cube.SetRotation(X, cube.GetSelected().x, true);
               }
-              
               break;
             }
-
             case (SDLK_UP): {
-              
               if (camera.GetFor().z > fabs(camera.GetFor().x)) {
                 cube.SetRotation(X, cube.GetSelected().x, true); 
               } else if (camera.GetFor().z < -1.0f * fabs(camera.GetFor().x)) {
@@ -145,12 +140,9 @@ int main() {
               } else if (camera.GetFor().x < -1.0f * fabs(camera.GetFor().z)) {
                 cube.SetRotation(Z, cube.GetSelected().z, true);
               }
-
               break;
             }
-
             case (SDLK_DOWN): {
-              
               if (camera.GetFor().z > fabs(camera.GetFor().x)) {
                 cube.SetRotation(X, cube.GetSelected().x, false); 
               } else if (camera.GetFor().z < -1.0f * fabs(camera.GetFor().x)) {
@@ -160,14 +152,8 @@ int main() {
               } else if (camera.GetFor().x < -1.0f * fabs(camera.GetFor().z)) {
                 cube.SetRotation(Z, cube.GetSelected().z, false);
               }
-              
               break;
             }
-
-
-
-
-
           }
           break;
         }
