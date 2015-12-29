@@ -19,7 +19,7 @@ Cube::Cube(int size = 3) {
   this->currRotateN = 0;
   this->currRotateClockwise = true;
   this->currRotateSteps = 0;
-  this->selected = glm::vec3(0, 0, 0); // No cube selected
+  this->selected = glm::vec3(-1, -1, -1); // No cube selected
 
   // Create blocks on cube.
   for (int z = 0; z < size; z++) {
