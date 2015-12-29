@@ -22,9 +22,22 @@ class Camera{
                                          m_position + m_forward, m_up);
     }
 
+    void GetPickRay(float x, float y, glm::vec3& rayStart, glm::vec3& rayEnd) {
+
+      glm::mat4 view = glm::lookAt(m_position, m_position + m_forward, m_up);
+
+      glm::vec4 viewport = glm::vec4(0, 0, 800, 600);
+      
+      rayStart = m_position; 
+
+      rayEnd   = glm::unProject(glm::vec3(x, 600.0f - y, 1.0f),
+                                view, m_perspective, viewport);
+    }
+
+
   protected:
   private:
-    glm::mat4 m_perspective;
+    glm::mat4 m_perspective; // Projection
     glm::vec3 m_position;
     glm::vec3 m_forward;
     glm::vec3 m_up;

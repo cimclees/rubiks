@@ -17,6 +17,8 @@
 #include "transform.h"
 #include "cube.h"
 
+#include <iostream>
+
 // Window size
 #define WIDTH 800
 #define HEIGHT 600
@@ -69,6 +71,7 @@ int main() {
 
   cube.SetRandRotation();
   
+
   bool quit = false;
   bool rightClick = false;
   // Iterate over drawn frames.
@@ -77,13 +80,15 @@ int main() {
     
     // Change camera position and orientation.
     positionCam(camera.GetPos(), camera.GetFor(), horizOffset, vertOffset);
-    
+
+        
     // Continue any current cube animations.
     cube.UpdateRotation();
 
     cube.SetRandRotation();
     
     cube.Draw(shader, transform, camera, blockMesh);
+
 
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -105,6 +110,78 @@ int main() {
         case SDL_MOUSEBUTTONDOWN: {
           if (event.button.button == SDL_BUTTON_RIGHT) {
             rightClick = true;
+          } else if (event.button.button == SDL_BUTTON_LEFT) {
+            
+            glm::vec3 rayStart;
+            glm::vec3 rayEnd;
+
+            camera.GetPickRay(event.button.x, event.button.y, rayStart, rayEnd);
+            
+            std::cout << "start: " << rayStart.x << " " << rayStart.y << " " << rayStart.z << std::endl;
+            std::cout << "end: " << rayEnd.x << " " << rayEnd.y << " " << rayEnd.z << std::endl;
+
+            // Ray Collision Check
+            glm::vec3 currPoint(rayStart);
+            bool found = false;
+          
+            glm::vec3 delta = normalize(rayEnd - rayStart) / 100.0f; 
+            //float deltaX = (rayEnd.x - rayStart.x) / 10000.0f;
+            //float deltaY = (rayEnd.y - rayStart.y) / 10000.0f;
+            //float deltaZ = (rayEnd.z - rayStart.z) / 10000.0f;
+            
+            int x = 0;
+            int y = 0;
+            int z = 0;
+            int checks = 0;
+
+            // Get close to cube
+            while (fabs(currPoint.x) > 3.1f &&
+                   fabs(currPoint.y) > 3.1f &&
+                   fabs(currPoint.z) > 3.1f) {
+              currPoint.x += delta.x;
+              currPoint.y += delta.y;
+              currPoint.z += delta.z;
+            }
+
+            while (!found && (fabs(currPoint.x) < 3.2f
+                              ||  fabs(currPoint.y) < 3.2f
+                              ||  fabs(currPoint.z) < 3.2f)) {
+
+              checks++;
+              currPoint.x += delta.x;
+              currPoint.y += delta.y;
+              currPoint.z += delta.z;
+
+              // std::cout << deltaX << " " << deltaY << " " << deltaZ << std::endl;
+
+              for (x = 0; x < 3 && !found; x++) {
+                for (y = 0; y < 3 && !found; y++) {
+                  for (z = 0; z < 3 && !found; z++) {
+
+                     /* std::cout << fabs(cube.GetPos(x, y, z).x - currPoint.x)
+                              << " " << fabs(cube.GetPos(x, y, z).y - currPoint.y)
+                              << " " << fabs(cube.GetPos(x, y, z).z - currPoint.z) << std::endl; */
+                    
+                      if (fabs(cube.GetPos(x, y, z).x - currPoint.x) < 1.0f
+                        && fabs(cube.GetPos(x, y, z).y - currPoint.y) < 1.0f
+                        && fabs(cube.GetPos(x, y, z).z - currPoint.z) < 1.0f) {
+                      found = true;
+                      std::cout << "found: " << checks << std::endl;
+                      cube.GetSelected() = glm::vec3(x, y, z);
+                    }
+                  }
+                }
+              }  
+            }
+
+
+            if (found) {
+              std::cout << cube.GetSelected().x << " " << cube.GetSelected().y << " " << cube.GetSelected().z << std::endl;
+            } else {
+              std::cout << "not found: " << checks << std::endl;
+              cube.GetSelected() = glm::vec3(-1, -1, -1);
+            }
+
           }
           break;
         }

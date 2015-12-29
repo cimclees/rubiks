@@ -19,6 +19,7 @@ Cube::Cube(int size = 3) {
   this->currRotateN = 0;
   this->currRotateClockwise = true;
   this->currRotateSteps = 0;
+  this->selected = glm::vec3(0, 0, 0); // No cube selected
 
   // Create blocks on cube.
   for (int z = 0; z < size; z++) {
@@ -187,6 +188,13 @@ void Cube::Draw(Shader &shader, Transform &transform,
         this->GetTex(x, y, z).Bind(0);
         transform.SetPos( this->GetPos(x, y, z) );
         transform.SetRot( this->GetRot(x, y, z) );
+        
+        if (this->GetSelected() == glm::vec3(x, y, z)) {
+          transform.SetScale( glm::vec3(1.5f, 1.5f, 1.5f) );
+        } else {
+          transform.SetScale( glm::vec3(1.0f, 1.0f, 1.0f) );
+        }
+        
         shader.Update(transform, camera);
         mesh.Draw();
       }

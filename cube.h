@@ -106,6 +106,15 @@ class Cube {
     }
 
     /**
+     * Get the selected block on a cube.
+     *
+     * @return The position on the cube of the selected block.
+     */
+    inline glm::vec3& GetSelected() { 
+      return selected; 
+    }
+    
+    /**
      * Descructor for a cube.
      */
     ~Cube();
@@ -119,6 +128,8 @@ class Cube {
     int  currRotateN;
     bool currRotateClockwise;
     int  currRotateSteps;
+
+    glm::vec3 selected;
 };
 
 #endif // CUBE_H
