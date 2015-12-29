@@ -12,6 +12,8 @@
 #include <cstdlib>
 #include "cube.h"
 
+#define ROTATION_FRAMES 60
+
 Cube::Cube(int size = 3) {
   this->size = size;
   this->currRotating = false;
@@ -34,12 +36,12 @@ Cube::Cube(int size = 3) {
 }
 
 void Cube::SetRotation(Dim axis, int n, bool clockwise) {
-  if (!currRotating) {
+  if (!currRotating && n >= 0 && n < this->size) {
     this->currRotating = true;
     this->currRotateAxis = axis;
     this->currRotateN = n;
     this->currRotateClockwise = clockwise;
-    this->currRotateSteps = 300;
+    this->currRotateSteps = ROTATION_FRAMES;
   }
 }
 
@@ -80,7 +82,7 @@ void Cube::UpdateRotation() {
         for (int z = z_min; z <= z_max; z++) {
           
           // Determine angle of rotation.
-          float deltaRot = (PI / 2) / 300.0f;
+          float deltaRot = (PI / 2) / ROTATION_FRAMES;
           if (!currRotateClockwise) {
             deltaRot *= -1.0f;
           }
@@ -172,6 +174,40 @@ void Cube::UpdateRotation() {
         for (int y = y_min; y <= y_max; y++) {
           for (int z = z_min; z <= z_max; z++) {
             blocks[x][y][z] = tempBlocks[x][y][z];
+          }
+        }
+      }
+      
+      // Update selected block
+      switch(currRotateAxis) {
+        case X: {
+          if (selected.x == currRotateN) {
+            if (currRotateClockwise) {
+              selected = glm::vec3(selected.x, 2 - selected.z, selected.y);
+            } else {
+              selected = glm::vec3(selected.x, selected.z, 2 - selected.y);
+            }
+          }
+          break;
+        }
+        case Y: {
+          if (selected.y == currRotateN) {
+            if (currRotateClockwise) {
+              selected = glm::vec3(selected.z, selected.y, 2 - selected.x);
+            } else {
+              selected = glm::vec3(2 - selected.z, selected.y, selected.x);
+            }
+          }
+          break;
+        }
+        case Z: {
+          if (selected.z == currRotateN) {
+            if (currRotateClockwise) {
+              selected = glm::vec3(2 - selected.y, selected.x, selected.z);
+            } else {
+              selected = glm::vec3(selected.y, 2 - selected.x, selected.z);
+            }
+          break;
           }
         }
       }

@@ -69,8 +69,6 @@ int main() {
   // Create a cube object of size 3x3x3.
   Cube cube(3);
 
-  cube.SetRandRotation();
-  
   bool quit = false;
   bool rightClick = false;
   // Iterate over drawn frames.
@@ -83,8 +81,6 @@ int main() {
     // Continue any current cube animations.
     cube.UpdateRotation();
 
-    cube.SetRandRotation();
-    
     cube.Draw(shader, transform, camera, blockMesh);
 
     // Process user input.
@@ -93,6 +89,86 @@ int main() {
       switch (event.type) { 
         case SDL_QUIT: {
           quit = true;
+          break;
+        }
+        case SDL_KEYDOWN: {
+          switch (event.key.keysym.sym) {
+            case (SDLK_r): {
+              cube.SetRandRotation();
+              break;
+            }
+            case (SDLK_RIGHT): {
+              cube.SetRotation(Y, cube.GetSelected().y, true);
+              break;
+            }
+            case (SDLK_LEFT): {
+              cube.SetRotation(Y, cube.GetSelected().y, false);
+              break;
+            }
+            case (SDLK_PERIOD): {
+              
+              if (camera.GetFor().z > fabs(camera.GetFor().x)) {
+                cube.SetRotation(Z, cube.GetSelected().z, true); 
+              } else if (camera.GetFor().z < -1.0f * fabs(camera.GetFor().x)) {
+                cube.SetRotation(Z, cube.GetSelected().z, false);
+              } else if (camera.GetFor().x > fabs(camera.GetFor().z)) {
+                cube.SetRotation(X, cube.GetSelected().x, true);
+              } else if (camera.GetFor().x < -1.0f * fabs(camera.GetFor().z)) {
+                cube.SetRotation(X, cube.GetSelected().x, false);
+              }
+
+              break;
+            }
+            case (SDLK_COMMA): {
+              
+              if (camera.GetFor().z > fabs(camera.GetFor().x)) {
+                cube.SetRotation(Z, cube.GetSelected().z, false); 
+              } else if (camera.GetFor().z < -1.0f * fabs(camera.GetFor().x)) {
+                cube.SetRotation(Z, cube.GetSelected().z, true);
+              } else if (camera.GetFor().x > fabs(camera.GetFor().z)) {
+                cube.SetRotation(X, cube.GetSelected().x, false);
+              } else if (camera.GetFor().x < -1.0f * fabs(camera.GetFor().z)) {
+                cube.SetRotation(X, cube.GetSelected().x, true);
+              }
+              
+              break;
+            }
+
+            case (SDLK_UP): {
+              
+              if (camera.GetFor().z > fabs(camera.GetFor().x)) {
+                cube.SetRotation(X, cube.GetSelected().x, true); 
+              } else if (camera.GetFor().z < -1.0f * fabs(camera.GetFor().x)) {
+                cube.SetRotation(X, cube.GetSelected().x, false);
+              } else if (camera.GetFor().x > fabs(camera.GetFor().z)) {
+                cube.SetRotation(Z, cube.GetSelected().z, false);
+              } else if (camera.GetFor().x < -1.0f * fabs(camera.GetFor().z)) {
+                cube.SetRotation(Z, cube.GetSelected().z, true);
+              }
+
+              break;
+            }
+
+            case (SDLK_DOWN): {
+              
+              if (camera.GetFor().z > fabs(camera.GetFor().x)) {
+                cube.SetRotation(X, cube.GetSelected().x, false); 
+              } else if (camera.GetFor().z < -1.0f * fabs(camera.GetFor().x)) {
+                cube.SetRotation(X, cube.GetSelected().x, true);
+              } else if (camera.GetFor().x > fabs(camera.GetFor().z)) {
+                cube.SetRotation(Z, cube.GetSelected().z, true);
+              } else if (camera.GetFor().x < -1.0f * fabs(camera.GetFor().z)) {
+                cube.SetRotation(Z, cube.GetSelected().z, false);
+              }
+              
+              break;
+            }
+
+
+
+
+
+          }
           break;
         }
         case SDL_MOUSEMOTION: {
