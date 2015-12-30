@@ -1,3 +1,4 @@
 *.swp
 rubiks
 *.o
+cpplint.py
