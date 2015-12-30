@@ -13,6 +13,10 @@ Display::Display(int width, int height, const std::string& title) {
   SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
+  // Antialiasing
+  //SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+  //SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 8);
+
   m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, 
                               SDL_WINDOWPOS_CENTERED, width, height,
                               SDL_WINDOW_OPENGL);
@@ -30,6 +34,8 @@ Display::Display(int width, int height, const std::string& title) {
 
   glEnable(GL_CULL_FACE);
   glCullFace(GL_BACK);
+
+  glEnable(GL_MULTISAMPLE);
 }
 
 Display::~Display() {
