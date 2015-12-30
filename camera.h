@@ -22,16 +22,12 @@ class Camera{
                                          m_position + m_forward, m_up);
     }
 
-    void GetPickRay(float x, float y, glm::vec3& rayStart, glm::vec3& rayEnd) {
-
+    glm::vec3 GetPickRay(float x, float y) {
       glm::mat4 view = glm::lookAt(m_position, m_position + m_forward, m_up);
-
       glm::vec4 viewport = glm::vec4(0, 0, 800, 600);
-      
-      rayStart = m_position; 
-
-      rayEnd   = glm::unProject(glm::vec3(x, 600.0f - y, 1.0f),
+      glm::vec3 rayEnd   = glm::unProject(glm::vec3(x, 600.0f - y, 1.0f),
                                 view, m_perspective, viewport);
+      return normalize(rayEnd - m_position);
     }
 
 

@@ -238,6 +238,52 @@ void Cube::Draw(Shader &shader, Transform &transform,
   }
 }
 
+void Cube::SelectBlock(const glm::vec3& rayStart, const glm::vec3& rayDir) {
+  // Small incrememnts for collision check.
+  glm::vec3 delta = rayDir / 100.0f;
+
+  // Ray collision check.
+  glm::vec3 currPoint(rayStart);
+  bool found = false;
+
+  int x = 0;
+  int y = 0;
+  int z = 0;
+
+  // Get close to cube.
+  while (fabs(currPoint.x) > 3.1f &&
+         fabs(currPoint.y) > 3.1f &&
+         fabs(currPoint.z) > 3.1f) {
+    currPoint += delta;
+  }
+
+  // Iterate over points on ray.
+  while (!found && (    fabs(currPoint.x) < 3.2f
+                    ||  fabs(currPoint.y) < 3.2f
+                    ||  fabs(currPoint.z) < 3.2f)) {
+
+    currPoint += delta;
+  
+    // Check point collision with any block.
+    for (x = 0; x < 3 && !found; x++) {
+      for (y = 0; y < 3 && !found; y++) {
+        for (z = 0; z < 3 && !found; z++) {
+            if ( fabs(this->GetPos(x, y, z).x - currPoint.x) < 1.0f
+              && fabs(this->GetPos(x, y, z).y - currPoint.y) < 1.0f
+              && fabs(this->GetPos(x, y, z).z - currPoint.z) < 1.0f) {
+            found = true;
+            this->GetSelected() = glm::vec3(x, y, z);
+          }
+        }
+      }
+    }  
+  }
+
+  if (!found) {
+    this->GetSelected() = glm::vec3(-1, -1, -1);
+  }
+}
+
 Cube::~Cube() {
   for (int z = 0; z < this->size; z++) {
     for (int y = 0; y < this->size; y++) {

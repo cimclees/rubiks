@@ -180,60 +180,11 @@ int main() {
           if (event.button.button == SDL_BUTTON_RIGHT) {
             rightClick = true;
           } else if (event.button.button == SDL_BUTTON_LEFT) {
-            
-            glm::vec3 rayStart;
-            glm::vec3 rayEnd;
-
-            camera.GetPickRay(event.button.x, event.button.y, rayStart, rayEnd);
-            
-            // Ray Collision Check
-            glm::vec3 currPoint(rayStart);
-            bool found = false;
-          
-            glm::vec3 delta = normalize(rayEnd - rayStart) / 100.0f; 
-            
-            int x = 0;
-            int y = 0;
-            int z = 0;
-
-            // Get close to cube
-            while (fabs(currPoint.x) > 3.1f &&
-                   fabs(currPoint.y) > 3.1f &&
-                   fabs(currPoint.z) > 3.1f) {
-              currPoint.x += delta.x;
-              currPoint.y += delta.y;
-              currPoint.z += delta.z;
-            }
-
-            while (!found && (fabs(currPoint.x) < 3.2f
-                              ||  fabs(currPoint.y) < 3.2f
-                              ||  fabs(currPoint.z) < 3.2f)) {
-
-              currPoint.x += delta.x;
-              currPoint.y += delta.y;
-              currPoint.z += delta.z;
-
-              for (x = 0; x < 3 && !found; x++) {
-                for (y = 0; y < 3 && !found; y++) {
-                  for (z = 0; z < 3 && !found; z++) {
-                      if (fabs(cube.GetPos(x, y, z).x - currPoint.x) < 1.0f
-                        && fabs(cube.GetPos(x, y, z).y - currPoint.y) < 1.0f
-                        && fabs(cube.GetPos(x, y, z).z - currPoint.z) < 1.0f) {
-                      found = true;
-                      cube.GetSelected() = glm::vec3(x, y, z);
-                    }
-                  }
-                }
-              }  
-            }
-
-            if (!found) {
-              cube.GetSelected() = glm::vec3(-1, -1, -1);
-            }
+            glm::vec3 delta = camera.GetPickRay(event.button.x, event.button.y);
+            cube.SelectBlock(camera.GetPos(), delta);
           }
           break;
         }
-
         case SDL_MOUSEBUTTONUP: {
           if (event.button.button == SDL_BUTTON_RIGHT) {
             rightClick = false;

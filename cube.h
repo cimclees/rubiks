@@ -70,6 +70,15 @@ class Cube {
     void Draw(Shader &shader, Transform &transform, Camera &camera, Mesh &mesh);
     
     /**
+     * Select the first block on a cube to intersect a ray.  Unselect a block
+     * if no block interesects the ray.
+     *
+     * @param rayStart The origin of the ray.
+     * @param rayDir The direction of the ray (should be normalized).
+     */
+    void SelectBlock(const glm::vec3& rayStart, const glm::vec3& rayDir);
+
+    /**
      * Get the texture associated with a block on a cube.
      *
      * @param x Position of desired block on cube along x-axis.
