@@ -132,7 +132,6 @@ class Cube {
     int size;
     Block* blocks[3][3][3];
 
-    bool currRotating;
     Dim  currRotateAxis;
     int  currRotateN;
     bool currRotateClockwise;

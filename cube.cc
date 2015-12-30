@@ -16,7 +16,6 @@
 
 Cube::Cube(int size = 3) {
   this->size = size;
-  this->currRotating = false;
   this->currRotateAxis = X;
   this->currRotateN = 0;
   this->currRotateClockwise = true;
@@ -36,8 +35,7 @@ Cube::Cube(int size = 3) {
 }
 
 void Cube::SetRotation(Dim axis, int n, bool clockwise) {
-  if (!currRotating && n >= 0 && n < this->size) {
-    this->currRotating = true;
+  if (currRotateSteps == 0 && n >= 0 && n < this->size) {
     this->currRotateAxis = axis;
     this->currRotateN = n;
     this->currRotateClockwise = clockwise;
@@ -53,7 +51,7 @@ void Cube::SetRandRotation() {
 }
 
 void Cube::UpdateRotation() {
-  if (currRotating) {
+  if (currRotateSteps != 0) {
     int x_min = 0, y_min = 0, z_min = 0;
     int x_max = 2, y_max = 2, z_max = 2;
     
@@ -134,7 +132,6 @@ void Cube::UpdateRotation() {
           
     // Check rotation completion.
     if (currRotateSteps == 0) {
-      this->currRotating = false;
  
       // Update block positions on cube.     
       Block* tempBlocks[3][3][3];
