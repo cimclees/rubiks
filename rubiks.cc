@@ -24,27 +24,6 @@
 // Mouse sensitivity
 #define MOUSE_SENS 0.005f
 
-/**
- * Function to position and orient a camera.
- *
- * @param position Camera postion vector to be set.
- * @param forward Camera forward vector to be set.
- * @param horizOffset Value used to compute position on x and z axes.
- * @param vertOffset  Value used to compuet position on y axis.
- */
-void PositionCam(glm::vec3& position, glm::vec3& forward,
-                 const float& horizOffset, const float& vertOffset) {
-    float sinHoriz = sinf(horizOffset);
-    float cosHoriz = cosf(horizOffset);
-    position.x = 20 * sinHoriz;
-    position.z = 20 * cosHoriz;
-    forward.x = -sinHoriz;
-    forward.z = -cosHoriz;
-
-    float sinVert = sinf(vertOffset);
-    position.y = 20 * sinVert;
-    forward.y = -sinVert;
-}
 
 /**
  * Function to choose correct rotation to make on X or Z axes depending on
@@ -185,8 +164,7 @@ int main() {
   // Create a camera object to manipulate positional perspective.
   float horizOffset = 0.0f;  // These values determine the position and
   float vertOffset  = 0.0f;  // orientation of the camera.
-  Camera camera(glm::vec3(0.0f, 0.0f, 0.0f), 70.0f,
-                static_cast<float>(WIDTH) / HEIGHT, 0.01f, 1000.0f);
+  Camera camera(70.0f, static_cast<float>(WIDTH) / HEIGHT, 0.01f, 1000.0f);
   // Create a transform object to perform rotational and positional transforms
   // on block objects.
   Transform transform;
@@ -200,7 +178,7 @@ int main() {
     display.Clear(0.0f, 0.15f, 0.3f, 1.0f);
 
     // Change camera position and orientation.
-    PositionCam(camera.GetPos(), camera.GetFor(), horizOffset, vertOffset);
+    camera.PositionCam(horizOffset, vertOffset);
 
     // Continue any current cube animations.
     cube.UpdateRotation();
