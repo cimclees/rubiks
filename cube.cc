@@ -14,20 +14,25 @@
 
 #define ROTATION_FRAMES 60
 
-Cube::Cube(int size = 3) {
+Cube::Cube(int size = 3) :
+  blocks(size, std::vector<std::vector<Block*> >
+      (size, std::vector<Block*>(size))) {
   this->size = size;
   this->currRotateAxis = X;
   this->currRotateN = 0;
   this->currRotateClockwise = true;
   this->currRotateSteps = 0;
   this->selected = glm::vec3(-1, -1, -1); // No cube selected
-
+  
+  float posOffset = (static_cast<float>(size) - 1.0f) / 2.0f;
   // Create blocks on cube.
   for (int z = 0; z < size; z++) {
     for (int y = 0; y < size; y++) {
       for (int x = 0; x < size; x++) {
         blocks[x][y][z] = new Block("./res/block_uv_1.png", 
-                                    glm::vec3(2*(x - 1), 2*(y - 1), 2*(z - 1)),
+                                    glm::vec3(2*(x - posOffset), 
+                                              2*(y - posOffset), 
+                                              2*(z - posOffset)),
                                     glm::vec3(0, 0, 0));
       }
     }
@@ -35,11 +40,11 @@ Cube::Cube(int size = 3) {
 }
 
 void Cube::SetRotation(Dim axis, int n, bool clockwise) {
-  if (currRotateSteps == 0 && n >= 0 && n < this->size) {
-    this->currRotateAxis = axis;
-    this->currRotateN = n;
-    this->currRotateClockwise = clockwise;
-    this->currRotateSteps = ROTATION_FRAMES;
+  if (currRotateSteps == 0 && n >= 0 && n < size) {
+    currRotateAxis = axis;
+    currRotateN = n;
+    currRotateClockwise = clockwise;
+    currRotateSteps = ROTATION_FRAMES;
   }
 }
 
@@ -53,31 +58,31 @@ void Cube::SetRandRotation() {
 void Cube::UpdateRotation() {
   if (currRotateSteps != 0) {
     int x_min = 0, y_min = 0, z_min = 0;
-    int x_max = 2, y_max = 2, z_max = 2;
+    int x_max = size, y_max = size, z_max = size;
     
     // Choose correct blocks to rotate.
     switch(currRotateAxis) {
       case X: {
         x_min = currRotateN;
-        x_max = currRotateN;
+        x_max = currRotateN + 1;
         break;
       }
       case Y: {
         y_min = currRotateN;
-        y_max = currRotateN;
+        y_max = currRotateN + 1;
         break;
       }
       case Z: {
         z_min = currRotateN;
-        z_max = currRotateN;
+        z_max = currRotateN + 1;
         break;
       }
     }
     
     // Rotate blocks.
-    for (int x = x_min; x <= x_max; x++) {
-      for (int y = y_min; y <= y_max; y++) {
-        for (int z = z_min; z <= z_max; z++) {
+    for (int x = x_min; x < x_max; x++) {
+      for (int y = y_min; y < y_max; y++) {
+        for (int z = z_min; z < z_max; z++) {
           
           // Determine angle of rotation.
           float deltaRot = (PI / 2) / ROTATION_FRAMES;
@@ -88,33 +93,34 @@ void Cube::UpdateRotation() {
           // Choose position values to be modified and update rotation.
           float* adj;
           float* opp;
-          bool notCenter;
+          bool center;
+          int middleIndex = (size - 1) / 2;
           switch(currRotateAxis) {
             case X: {
               blocks[x][y][z]->RotX(deltaRot);
               adj = &blocks[x][y][z]->GetPos().y;
               opp = &blocks[x][y][z]->GetPos().z;
-              notCenter = (y != 1 || z != 1);
+              center = (size % 2 == 1 && y ==  middleIndex && z == middleIndex);
               break;
             }
             case Y: {
               blocks[x][y][z]->RotY(deltaRot);
               adj = &blocks[x][y][z]->GetPos().z;
               opp = &blocks[x][y][z]->GetPos().x;
-              notCenter = (x != 1 || z != 1);
+              center = (size % 2 == 1 && x ==  middleIndex && z == middleIndex);
               break;
             }
             case Z: {
               blocks[x][y][z]->RotZ(deltaRot);
               adj = &blocks[x][y][z]->GetPos().x;
               opp = &blocks[x][y][z]->GetPos().y;
-              notCenter = (x != 1 || y != 1);
+              center = (size % 2 == 1 && x ==  middleIndex && y == middleIndex);
               break;
             }
           }
 
           // Update relevant position values.
-          if (notCenter) {
+          if (!center) {
             float hyp = sqrt(pow(*adj, 2) + pow(*opp, 2));
             if (*adj < 0) {
               hyp = hyp * -1.0f;
@@ -134,32 +140,34 @@ void Cube::UpdateRotation() {
     if (currRotateSteps == 0) {
  
       // Update block positions on cube.     
-      Block* tempBlocks[3][3][3];
-      for (int x = x_min; x <= x_max; x++) {
-        for (int y = y_min; y <= y_max; y++) {
-          for (int z = z_min; z <= z_max; z++) {
+      int translate = size - 1;
+      std::vector< std::vector< std::vector <Block*> > > tempBlocks(size, 
+        std::vector<std::vector<Block*> >(size, std::vector<Block*>(size)));
+      for (int x = x_min; x < x_max; x++) {
+        for (int y = y_min; y < y_max; y++) {
+          for (int z = z_min; z < z_max; z++) {
             switch(currRotateAxis) {
               case X: {
                 if (currRotateClockwise) {
-                  tempBlocks[x][y][z] = blocks[x][z][2 - y];
+                  tempBlocks[x][y][z] = blocks[x][z][translate - y];
                 } else {
-                  tempBlocks[x][y][z] = blocks[x][2 - z][y];
+                  tempBlocks[x][y][z] = blocks[x][translate - z][y];
                 }
                 break;
               }
               case Y: {
                 if (currRotateClockwise) {
-                  tempBlocks[x][y][z] = blocks[2 - z][y][x];
+                  tempBlocks[x][y][z] = blocks[translate - z][y][x];
                 } else {
-                  tempBlocks[x][y][z] = blocks[z][y][2 - x];
+                  tempBlocks[x][y][z] = blocks[z][y][translate - x];
                 }
                 break;
               }
               case Z: {
                 if (currRotateClockwise) {
-                  tempBlocks[x][y][z] = blocks[y][2 - x][z];
+                  tempBlocks[x][y][z] = blocks[y][translate - x][z];
                 } else {
-                  tempBlocks[x][y][z] = blocks[2 - y][x][z];
+                  tempBlocks[x][y][z] = blocks[translate - y][x][z];
                 }
                 break;
               }
@@ -167,9 +175,9 @@ void Cube::UpdateRotation() {
           }
         }
       }
-      for (int x = x_min; x <= x_max; x++) {
-        for (int y = y_min; y <= y_max; y++) {
-          for (int z = z_min; z <= z_max; z++) {
+      for (int x = x_min; x < x_max; x++) {
+        for (int y = y_min; y < y_max; y++) {
+          for (int z = z_min; z < z_max; z++) {
             blocks[x][y][z] = tempBlocks[x][y][z];
           }
         }
@@ -180,9 +188,9 @@ void Cube::UpdateRotation() {
         case X: {
           if (selected.x == currRotateN) {
             if (currRotateClockwise) {
-              selected = glm::vec3(selected.x, 2 - selected.z, selected.y);
+              selected = glm::vec3(selected.x, translate - selected.z, selected.y);
             } else {
-              selected = glm::vec3(selected.x, selected.z, 2 - selected.y);
+              selected = glm::vec3(selected.x, selected.z, translate - selected.y);
             }
           }
           break;
@@ -190,9 +198,9 @@ void Cube::UpdateRotation() {
         case Y: {
           if (selected.y == currRotateN) {
             if (currRotateClockwise) {
-              selected = glm::vec3(selected.z, selected.y, 2 - selected.x);
+              selected = glm::vec3(selected.z, selected.y, translate - selected.x);
             } else {
-              selected = glm::vec3(2 - selected.z, selected.y, selected.x);
+              selected = glm::vec3(translate - selected.z, selected.y, selected.x);
             }
           }
           break;
@@ -200,9 +208,9 @@ void Cube::UpdateRotation() {
         case Z: {
           if (selected.z == currRotateN) {
             if (currRotateClockwise) {
-              selected = glm::vec3(2 - selected.y, selected.x, selected.z);
+              selected = glm::vec3(translate - selected.y, selected.x, selected.z);
             } else {
-              selected = glm::vec3(selected.y, 2 - selected.x, selected.z);
+              selected = glm::vec3(selected.y, translate - selected.x, selected.z);
             }
           break;
           }
@@ -248,28 +256,28 @@ void Cube::SelectBlock(const glm::vec3& rayStart, const glm::vec3& rayDir) {
   int z = 0;
 
   // Get close to cube.
-  while (fabs(currPoint.x) > 3.1f &&
-         fabs(currPoint.y) > 3.1f &&
-         fabs(currPoint.z) > 3.1f) {
+  while (fabs(currPoint.x) > size + 0.1f &&
+         fabs(currPoint.y) > size + 0.1f &&
+         fabs(currPoint.z) > size + 0.1f) {
     currPoint += delta;
   }
 
   // Iterate over points on ray.
-  while (!found && (    fabs(currPoint.x) < 3.2f
-                    ||  fabs(currPoint.y) < 3.2f
-                    ||  fabs(currPoint.z) < 3.2f)) {
+  while (!found && (    fabs(currPoint.x) < size + 0.2f
+                    ||  fabs(currPoint.y) < size + 0.2f
+                    ||  fabs(currPoint.z) < size + 0.2f)) {
 
     currPoint += delta;
   
     // Check point collision with any block.
-    for (x = 0; x < 3 && !found; x++) {
-      for (y = 0; y < 3 && !found; y++) {
-        for (z = 0; z < 3 && !found; z++) {
-            if ( fabs(this->GetPos(x, y, z).x - currPoint.x) < 1.0f
-              && fabs(this->GetPos(x, y, z).y - currPoint.y) < 1.0f
-              && fabs(this->GetPos(x, y, z).z - currPoint.z) < 1.0f) {
+    for (x = 0; x < size && !found; x++) {
+      for (y = 0; y < size && !found; y++) {
+        for (z = 0; z < size && !found; z++) {
+            if ( fabs(GetPos(x, y, z).x - currPoint.x) < 1.0f
+              && fabs(GetPos(x, y, z).y - currPoint.y) < 1.0f
+              && fabs(GetPos(x, y, z).z - currPoint.z) < 1.0f) {
             found = true;
-            this->GetSelected() = glm::vec3(x, y, z);
+            GetSelected() = glm::vec3(x, y, z);
           }
         }
       }
@@ -282,9 +290,9 @@ void Cube::SelectBlock(const glm::vec3& rayStart, const glm::vec3& rayDir) {
 }
 
 Cube::~Cube() {
-  for (int z = 0; z < this->size; z++) {
-    for (int y = 0; y < this->size; y++) {
-      for (int x = 0; x < this->size; x++) {
+  for (int z = 0; z < size; z++) {
+    for (int y = 0; y < size; y++) {
+      for (int x = 0; x < size; x++) {
         delete blocks[x][y][z];
       }
     }

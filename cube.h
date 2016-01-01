@@ -10,6 +10,7 @@
 #ifndef CUBE_H
 #define CUBE_H
 
+#include <vector>
 #include "block.h"
 #include "texture.h"
 #include "shader.h"
@@ -130,7 +131,7 @@ class Cube {
   protected:
   private:
     int size;
-    Block* blocks[3][3][3];
+    std::vector< std::vector< std::vector <Block*> > > blocks;
 
     Dim  currRotateAxis;
     int  currRotateN;
