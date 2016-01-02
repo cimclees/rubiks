@@ -188,9 +188,11 @@ void Cube::UpdateRotation() {
         case X: {
           if (selected.x == currRotateN) {
             if (currRotateClockwise) {
-              selected = glm::vec3(selected.x, translate - selected.z, selected.y);
+              selected = 
+                glm::vec3(selected.x, translate - selected.z, selected.y);
             } else {
-              selected = glm::vec3(selected.x, selected.z, translate - selected.y);
+              selected = 
+                glm::vec3(selected.x, selected.z, translate - selected.y);
             }
           }
           break;
@@ -198,9 +200,11 @@ void Cube::UpdateRotation() {
         case Y: {
           if (selected.y == currRotateN) {
             if (currRotateClockwise) {
-              selected = glm::vec3(selected.z, selected.y, translate - selected.x);
+              selected = 
+                glm::vec3(selected.z, selected.y, translate - selected.x);
             } else {
-              selected = glm::vec3(translate - selected.z, selected.y, selected.x);
+              selected = 
+                glm::vec3(translate - selected.z, selected.y, selected.x);
             }
           }
           break;
@@ -208,9 +212,11 @@ void Cube::UpdateRotation() {
         case Z: {
           if (selected.z == currRotateN) {
             if (currRotateClockwise) {
-              selected = glm::vec3(translate - selected.y, selected.x, selected.z);
+              selected = 
+                glm::vec3(translate - selected.y, selected.x, selected.z);
             } else {
-              selected = glm::vec3(selected.y, translate - selected.x, selected.z);
+              selected = 
+                glm::vec3(selected.y, translate - selected.x, selected.z);
             }
           break;
           }
@@ -219,7 +225,7 @@ void Cube::UpdateRotation() {
     }
   }
 }
-    
+
 void RotateXZ(Dim absZgreaterX, bool ZgreatX, bool XgreatZ,
               glm::vec3& forward) {
   Dim absXgreaterZ;
