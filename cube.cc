@@ -14,7 +14,7 @@
 
 #define ROTATION_FRAMES 60
 
-Cube::Cube(int size = 3) :
+Cube::Cube(int size) :
   blocks(size, std::vector<std::vector<Block*> >
       (size, std::vector<Block*>(size))) {
   this->size = size;

@@ -11,7 +11,8 @@
 #define CAMERA_H
 
 #include <glm/glm.hpp>
-#include <glm/gtx/transform.hpp>
+
+const float PI = 3.141592653f;
 
 class Camera{
   public:
@@ -38,7 +39,30 @@ class Camera{
      * @return The forward direction relative to the camera.
      */
     inline glm::vec3& GetFor() { return m_forward; }
+    
+    /**
+     * Get the horizontal offset of the camera.  Offset values are used to 
+     * position the camera so that it always faces the origin.
+     *
+     * @return The horizontal offset of the camera.
+     */
+    inline float& GetHoriz() { return m_horizOffset; }
+    
+    /**
+     * Get the vertical offset of the camera.  Offset values are used to 
+     * position the camera so that it always faces the origin.
+     *
+     * @return The vertical offset of the camera.
+     */
+    inline float& GetVert() { return m_vertOffset; }
 
+    /**
+     * Function to position and orient a camera so that it always faces the 
+     * origin, according to horizontal and vertical offset values accessed
+     * by GetHoriz and GetVert.
+     */
+    void PositionCam();
+    
     /**
      * Get the projection view matrix of a camera.
      *
@@ -49,15 +73,6 @@ class Camera{
                                          m_position + m_forward, m_up);
     }
 
-    /**
-     * Function to position and orient a camera so that it always faces the 
-     * origin.
-     *
-     * @param horizOffset Value used to compute position on x and z axes.
-     * @param vertOffset  Value used to compute position on y axis.
-     */
-    void PositionCam(const float& horizOffset, const float& vertOffset);
-    
     /**
      * Function to project a mouse click into the program's 3D space through
      * the camera.
@@ -75,6 +90,8 @@ class Camera{
     glm::vec3 m_position;
     glm::vec3 m_forward;
     glm::vec3 m_up;
+    float m_horizOffset;
+    float m_vertOffset;
 };
 
 #endif // CAMERA_H
