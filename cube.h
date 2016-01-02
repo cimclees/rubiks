@@ -57,7 +57,26 @@ class Cube {
      * ongoing rotation.
      */
     void UpdateRotation();
-    
+
+    /**
+     * Function to choose correct rotation to make on X or Z axes depending on
+     * orientation at which a cube is viewed, and carry out that rotation.
+     *
+     * @param absZgreaterX The dimension of rotation to be used when the 
+     *    absolute value of the z component of the forward direction vector
+     *    is greater than the absolute value of the x component of the forward
+     *    direction vector.
+     * @param ZgreatX True if rotation to be clockwise when the value of
+     *   the z component of the forward direction vector is greater than the 
+     *   absolute value of the x component of the forward direction vector.
+     * @param XgreatZ True if rotation to be clockwise when the value of
+     *   the x component of the forward direction vector is greater than the 
+     *   absolute value of the z component of the forward direction vector.
+     * @param foward The forward direction vector from which the cube is viewed.
+     */
+    void RotateXZ(Dim absZgreaterX, bool ZgreatX, bool XgreatZ,
+                  glm::vec3& forward);
+
     /**
      * Draw a cube to output.
      *

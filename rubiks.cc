@@ -26,49 +26,6 @@
 
 
 /**
- * Function to choose correct rotation to make on X or Z axes depending on
- * camera orientation and carry out that rotation.
- *
- * @param absZgreaterX The dimension of rotation to be used when the absolute
- *   value of the z component of the forward vector of the camera is greater
- *   than the absolute value of the x component of the camera's forward vector.
- * @param ZgreatX True if rotation to be clockwise when the value of
- *   the z component of the forward vector of the camera is greater than the 
- *   absolute value of the x component of the camera's forward vector.
- * @param XgreatZ True if rotation to be clockwise when the value of
- *   the x component of the forward vector of the camera is greater than the 
- *   absolute value of the z component of the camera's forward vector.
- * @param camera Camera object used to determine proper roation.
- * @param cube Cube on which to make rotation.
- */
-void RotateXZ(Dim absZgreaterX, bool ZgreatX, bool XgreatZ,
-              Camera& camera, Cube& cube) {
-  Dim absXgreaterZ;
-  int absZgreaterXn;
-  int absXgreaterZn;
-
-  if (absZgreaterX == Z) {
-    absZgreaterXn = cube.GetSelected().z;
-    absXgreaterZ = X;
-    absXgreaterZn = cube.GetSelected().x;
-  } else {
-    absZgreaterXn = cube.GetSelected().x;
-    absXgreaterZ = Z;
-    absXgreaterZn = cube.GetSelected().z;
-  }
-
-  if (camera.GetFor().z > fabs(camera.GetFor().x)) {
-    cube.SetRotation(absZgreaterX, absZgreaterXn, ZgreatX);
-  } else if (camera.GetFor().z < -1.0f * fabs(camera.GetFor().x)) {
-    cube.SetRotation(absZgreaterX, absZgreaterXn, !ZgreatX);
-  } else if (camera.GetFor().x > fabs(camera.GetFor().z)) {
-    cube.SetRotation(absXgreaterZ, absXgreaterZn, XgreatZ);
-  } else if (camera.GetFor().x < -1.0f * fabs(camera.GetFor().z)) {
-    cube.SetRotation(absXgreaterZ, absXgreaterZn, !XgreatZ);
-  }
-}
-
-/**
  * Function to process user input and carry out any indicated operations.
  *
  * @param quit To be set to true if user closes program window.
@@ -142,19 +99,19 @@ void ProcessInput(bool& quit, bool& rightClick, Camera& camera, Cube& cube) {
             break;
           }
           case (SDLK_RIGHT): {
-            RotateXZ(Z, true, true, camera, cube);
+            cube.RotateXZ(Z, true, true, camera.GetFor());
             break;
           }
           case (SDLK_LEFT): {
-            RotateXZ(Z, false, false, camera, cube);
+            cube.RotateXZ(Z, false, false, camera.GetFor());
             break;
           }
           case (SDLK_UP): {
-            RotateXZ(X, true, false, camera, cube);
+            cube.RotateXZ(X, true, false, camera.GetFor());
             break;
           }
           case (SDLK_DOWN): {
-            RotateXZ(X, false, true, camera, cube);
+            cube.RotateXZ(X, false, true, camera.GetFor());
             break;
           }
         }

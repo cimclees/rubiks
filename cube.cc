@@ -219,6 +219,33 @@ void Cube::UpdateRotation() {
     }
   }
 }
+    
+void RotateXZ(Dim absZgreaterX, bool ZgreatX, bool XgreatZ,
+              glm::vec3& forward) {
+  Dim absXgreaterZ;
+  int absZgreaterXn;
+  int absXgreaterZn;
+
+  if (absZgreaterX == Z) {
+    absZgreaterXn = GetSelected().z;
+    absXgreaterZ = X;
+    absXgreaterZn = GetSelected().x;
+  } else {
+    absZgreaterXn = GetSelected().x;
+    absXgreaterZ = Z;
+    absXgreaterZn = GetSelected().z;
+  }
+
+  if (forward.z > fabs(forward.x)) {
+    SetRotation(absZgreaterX, absZgreaterXn, ZgreatX);
+  } else if (forward.z < -1.0f * fabs(forward.x)) {
+    SetRotation(absZgreaterX, absZgreaterXn, !ZgreatX);
+  } else if (forward.x > fabs(forward.z)) {
+    SetRotation(absXgreaterZ, absXgreaterZn, XgreatZ);
+  } else if (forward.x < -1.0f * fabs(forward.z)) {
+    SetRotation(absXgreaterZ, absXgreaterZn, !XgreatZ);
+  }
+}
 
 void Cube::Draw(Shader &shader, Transform &transform, 
                 Camera &camera, Mesh &mesh) { 
