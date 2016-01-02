@@ -1,5 +1,5 @@
 /**
- * @file camera.h
+ * @file camera.cc
  * @author Charles Ian Mclees
  *  
  * @section DESCRIPTION
@@ -7,6 +7,7 @@
  * This file contains the implementation of camera object.
  */
 
+#include <glm/gtx/transform.hpp>
 #include "./camera.h"
 
 Camera::Camera(float fov, float aspect, float zNear, float zFar) {
