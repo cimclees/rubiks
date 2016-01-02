@@ -75,11 +75,51 @@ void RotateXZ(Dim absZgreaterX, bool ZgreatX, bool XgreatZ,
  * @param rightClick True when right mouse button is held down.
  * @camera Camera object to control perspective.
  * @cube Cube object on which to carry out indicated operations.
- * @horizOffset To be removed.
- * @vertOffset  To be removed.
  */
-void ProcessInput(bool& quit, bool& rightClick, Camera& camera, Cube& cube,
-                  float& horizOffset, float& vertOffset) {
+void ProcessInput(bool& quit, bool& rightClick, Camera& camera, Cube& cube);
+
+/**
+ * Main function to run a Rubik's Cube game.
+ */
+int main() {
+  // Seed random number generator.
+  srand(time(NULL));
+  // Open a window.
+  Display display(WIDTH, HEIGHT, "Rubik's Cube");
+  // Load 3D data for a block model.
+  Mesh blockMesh("./res/block.obj");
+  // Initialize shader.
+  Shader shader("./res/basicShader");
+  // Create a camera object to manipulate positional perspective.
+  Camera camera(70.0f, static_cast<float>(WIDTH) / HEIGHT, 0.01f, 1000.0f);
+  // Create a transform object to perform rotational and positional transforms
+  // on block objects.
+  Transform transform;
+  // Create a cube object of size 3x3x3.
+  Cube cube(3);
+
+  bool quit       = false,  // True when the user has closed the window.
+       rightClick = false;  // True when right mouse button is held down.
+  // Iterate over drawn frames.
+  while (!display.IsClosed()) {
+    display.Clear(0.0f, 0.15f, 0.3f, 1.0f);
+
+    // Change camera position and orientation.
+    camera.PositionCam();
+
+    // Continue any current cube animations.
+    cube.UpdateRotation();
+
+    cube.Draw(shader, transform, camera, blockMesh);
+
+    ProcessInput(quit, rightClick, camera, cube);
+
+    display.Update(quit);
+  }
+  return 0;
+}
+
+void ProcessInput(bool& quit, bool& rightClick, Camera& camera, Cube& cube) {
   SDL_Event event;
   while (SDL_PollEvent(&event)) {
     switch (event.type) {
@@ -122,10 +162,10 @@ void ProcessInput(bool& quit, bool& rightClick, Camera& camera, Cube& cube,
       }
       case SDL_MOUSEMOTION: {
         if (rightClick) {
-          horizOffset += (event.motion.xrel * -MOUSE_SENS);
-          if ((event.motion.yrel < 0 && sinf(vertOffset) > (-PI / 4.0f)) ||
-              (event.motion.yrel > 0 && sinf(vertOffset) < (PI / 4.0f))) {
-            vertOffset  += (event.motion.yrel * MOUSE_SENS);
+          camera.GetHoriz() += (event.motion.xrel * -MOUSE_SENS);
+          if ((event.motion.yrel < 0 && sinf(camera.GetVert()) > (-PI / 4.0f)) ||
+              (event.motion.yrel > 0 && sinf(camera.GetVert()) < (PI / 4.0f))) {
+            camera.GetVert() += (event.motion.yrel * MOUSE_SENS);
           }
         }
         break;
@@ -147,47 +187,4 @@ void ProcessInput(bool& quit, bool& rightClick, Camera& camera, Cube& cube,
       }
     }
   }
-}
-
-/**
- * Main function to run a Rubik's Cube game.
- */
-int main() {
-  // Seed random number generator.
-  srand(time(NULL));
-  // Open a window.
-  Display display(WIDTH, HEIGHT, "Rubik's Cube");
-  // Load 3D data for a block model.
-  Mesh blockMesh("./res/block.obj");
-  // Initialize shader.
-  Shader shader("./res/basicShader");
-  // Create a camera object to manipulate positional perspective.
-  float horizOffset = 0.0f;  // These values determine the position and
-  float vertOffset  = 0.0f;  // orientation of the camera.
-  Camera camera(70.0f, static_cast<float>(WIDTH) / HEIGHT, 0.01f, 1000.0f);
-  // Create a transform object to perform rotational and positional transforms
-  // on block objects.
-  Transform transform;
-  // Create a cube object of size 3x3x3.
-  Cube cube(3);
-
-  bool quit       = false,  // True when the user has closed the window.
-       rightClick = false;  // True when right mouse button is held down.
-  // Iterate over drawn frames.
-  while (!display.IsClosed()) {
-    display.Clear(0.0f, 0.15f, 0.3f, 1.0f);
-
-    // Change camera position and orientation.
-    camera.PositionCam(horizOffset, vertOffset);
-
-    // Continue any current cube animations.
-    cube.UpdateRotation();
-
-    cube.Draw(shader, transform, camera, blockMesh);
-
-    ProcessInput(quit, rightClick, camera, cube, horizOffset, vertOffset);
-
-    display.Update(quit);
-  }
-  return 0;
 }
