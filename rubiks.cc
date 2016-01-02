@@ -24,7 +24,6 @@
 // Mouse sensitivity
 #define MOUSE_SENS 0.005f
 
-
 /**
  * Function to process user input and carry out any indicated operations.
  *
