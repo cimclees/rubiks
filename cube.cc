@@ -226,7 +226,7 @@ void Cube::UpdateRotation() {
   }
 }
 
-void RotateXZ(Dim absZgreaterX, bool ZgreatX, bool XgreatZ,
+void Cube::RotateXZ(Dim absZgreaterX, bool ZgreatX, bool XgreatZ,
               glm::vec3& forward) {
   Dim absXgreaterZ;
   int absZgreaterXn;
