@@ -7,7 +7,6 @@
  * This file contains the main function for a Rubik's Cube game.
  */
 
-#include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <SDL2/SDL.h>
 #include "./display.h"
