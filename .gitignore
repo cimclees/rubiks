@@ -2,3 +2,5 @@
 rubiks
 *.o
 cpplint.py
+obj_loader.*
+stb_image.*
