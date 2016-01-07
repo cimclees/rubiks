@@ -37,6 +37,7 @@ void ProcessInput(bool& quit, bool& rightClick, Camera& camera, Cube& cube);
  * Main function to run a Rubik's Cube game.
  */
 int main() {
+  int cubeSize = 5;
   // Seed random number generator.
   srand(time(NULL));
   // Open a window.
@@ -46,12 +47,14 @@ int main() {
   // Initialize shader.
   Shader shader("./res/basicShader");
   // Create a camera object to manipulate positional perspective.
-  Camera camera(70.0f, static_cast<float>(WIDTH) / HEIGHT, 0.01f, 1000.0f);
+  Camera camera(70.0f, static_cast<float>(WIDTH) / HEIGHT, 0.01f, 1000.0f,
+                (cubeSize + 1.0f) * 3.0f);
   // Create a transform object to perform rotational and positional transforms
   // on block objects.
   Transform transform;
   // Create a cube object of size 3x3x3.
-  Cube cube(3);
+  Cube cube(cubeSize);
+  
 
   bool quit       = false,  // True when the user has closed the window.
        rightClick = false;  // True when right mouse button is held down.

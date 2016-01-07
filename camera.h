@@ -23,8 +23,9 @@ class Camera{
      * @param aspect The aspect ratio of the program window (and camera).
      * @param zNear Objects closer to the camera than zNear are not drawn.
      * @param zFar Objects further from the camera than zFar are not drawn.
+     * @param dist The distance from the origin the camera should be.
      */
-    Camera(float fov, float aspect, float zNear, float zFar);
+    Camera(float fov, float aspect, float zNear, float zFar, float dist);
     
     /**
      * Get the position of a camera in 3D space.
@@ -92,6 +93,7 @@ class Camera{
     glm::vec3 m_up;
     float m_horizOffset;
     float m_vertOffset;
+    float m_dist;
 };
 
 #endif // CAMERA_H
