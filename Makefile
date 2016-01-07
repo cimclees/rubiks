@@ -13,13 +13,13 @@ display.o: display.cc display.h
 shader.o: shader.cc shader.h transform.h
 	g++ -g -Wall -std=c++11 -c shader.cc
 
-mesh.o: mesh.cc mesh.h obj_loader.h
+mesh.o: mesh.cc mesh.h extern/obj_loader.h
 	g++ -g -Wall -std=c++11 -c mesh.cc
 
-stb_image.o: stb_image.c stb_image.h
-	gcc -g -Wall -std=c11 -c stb_image.c
+stb_image.o: extern/stb_image.c extern/stb_image.h
+	gcc -g -Wall -std=c11 -c extern/stb_image.c
 
-texture.o: texture.cc texture.h stb_image.h
+texture.o: texture.cc texture.h extern/stb_image.h
 	g++ -g -Wall -std=c++11 -c texture.cc
 
 transform.o: transform.cc transform.h
@@ -28,8 +28,8 @@ transform.o: transform.cc transform.h
 camera.o: camera.cc camera.h
 	g++ -g -Wall -std=c++11 -c camera.cc
 
-obj_loader.o: obj_loader.cc obj_loader.h
-	g++ -g -Wall -std=c++11 -c obj_loader.cc
+obj_loader.o: extern/obj_loader.cc extern/obj_loader.h
+	g++ -g -Wall -std=c++11 -c extern/obj_loader.cc
 
 block.o: block.cc block.h texture.h
 	g++ -g -Wall -std=c++11 -c block.cc

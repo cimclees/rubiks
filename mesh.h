@@ -3,7 +3,7 @@
 
 #include <glm/glm.hpp>
 #include <GL/glew.h>
-#include "obj_loader.h"
+#include "extern/obj_loader.h"
 
 class Vertex {
   public:

@@ -1,5 +1,5 @@
 #include "texture.h"
-#include "stb_image.h"
+#include "extern/stb_image.h"
 #include <cassert>
 #include <iostream>
 
