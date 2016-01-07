@@ -10,12 +10,11 @@
 
 #include "block.h"
 
-Block::Block(const std::string& fileName, const glm::vec3& pos, 
-      const glm::vec3& rot):
-  m_texture(fileName),
+Block::Block(Col color, const glm::vec3& pos, const glm::vec3& rot):
   m_position(pos),
   m_rotation() {
-  
+ 
+  m_color = color; 
   glm::mat4 rotXMatrix = glm::rotate(rot.x, glm::vec3(1,0,0));
   glm::mat4 rotYMatrix = glm::rotate(rot.y, glm::vec3(0,1,0));
   glm::mat4 rotZMatrix = glm::rotate(rot.z, glm::vec3(0,0,1));

@@ -12,6 +12,8 @@
 #include <cstdlib>
 #include "cube.h"
 
+#include<iostream>
+
 #define ROTATION_FRAMES 60
 
 Cube::Cube(int size) :
@@ -29,7 +31,119 @@ Cube::Cube(int size) :
   for (int z = 0; z < size; z++) {
     for (int y = 0; y < size; y++) {
       for (int x = 0; x < size; x++) {
-        blocks[x][y][z] = new Block("./res/block_uv_1.png", 
+        
+        Col newBlockColor;
+        
+        if (x == 0 && 
+            y != 0 && y != size - 1 &&
+            z != 0 && z != size - 1) {
+          newBlockColor = WHT;
+        } else if (x != 0 && x != size - 1 && 
+                   y == size - 1 &&
+                   z != 0 && z != size - 1) {
+          newBlockColor = RED;
+        } else if (x != 0 && x != size - 1 && 
+                   y != 0 && y != size - 1 &&
+                   z == 0) {
+          newBlockColor = BLU;
+        } else if (x != 0 && x != size - 1 && 
+                   y == 0 &&
+                   z != 0 && z != size - 1) {
+          newBlockColor = ORG;
+        } else if (x != 0 && x != size - 1 && 
+                   y != 0 && y != size - 1 &&
+                   z == size - 1) {
+          newBlockColor = GRN;
+        } else if (x == size - 1 && 
+                   y != 0 && y != size - 1 &&
+                   z != 0 && z != size - 1) {
+          newBlockColor = YLW;
+        } else if (x == 0 && 
+                   y == size - 1 &&
+                   z != 0 && z != size - 1) {
+          newBlockColor = WHTRED;
+        } else if (x == 0 &&
+                   y != 0 && y != size - 1 &&
+                   z == 0) {
+          newBlockColor = WHTBLU;
+        } else if (x == 0 &&
+                   y == 0 &&
+                   z != 0 && z != size - 1) {
+          newBlockColor = WHTORG;
+        } else if (x == 0 &&
+                   y != 0 && y != size - 1 &&
+                   z == size - 1) {
+          newBlockColor = WHTGRN;
+        } else if (x != 0 && x != size - 1 && 
+                   y == size - 1 &&
+                   z == 0) {
+          newBlockColor = REDBLU;
+        } else if (x != 0 && x != size - 1 && 
+                   y == size - 1 &&
+                   z == size - 1) {
+          newBlockColor = REDGRN;
+        } else if (x == size - 1 && 
+                   y == size - 1 &&
+                   z != 0 && z != size - 1) {
+          newBlockColor = REDYLW;
+        } else if (x != 0 && x != size - 1 && 
+                   y == 0 &&
+                   z == 0) {
+          newBlockColor = BLUORG;
+        } else if (x == size - 1 && 
+                   y != 0 && y != size - 1 &&
+                   z == 0) {
+          newBlockColor = BLUYLW;
+        } else if (x != 0 && x != size - 1 && 
+                   y == 0 &&
+                   z == size - 1) {
+          newBlockColor = ORGGRN;
+        } else if (x == size - 1 && 
+                   y == 0 &&
+                   z != 0 && z != size - 1) {
+          newBlockColor = ORGYLW;
+        } else if (x == size - 1 && 
+                   y != 0 && y != size - 1 &&
+                   z == size - 1) {
+          newBlockColor = GRNYLW;
+        } else if (x == 0 && 
+                   y == size - 1 &&
+                   z == 0) {
+          newBlockColor = WHTREDBLU;
+        } else if (x == 0 && 
+                   y == size - 1 &&
+                   z == size - 1) {
+          newBlockColor = WHTREDGRN;
+        } else if (x == 0 &&
+                   y == 0 &&
+                   z == 0) {
+          newBlockColor = WHTBLUORG;
+        } else if (x == 0 &&
+                   y == 0 &&
+                   z == size - 1) {
+          newBlockColor = WHTORGGRN;
+        } else if (x == size - 1 && 
+                   y == size - 1 &&
+                   z == 0) {
+          newBlockColor = REDBLUYLW;
+        } else if (x == size - 1 && 
+                   y == size - 1 &&
+                   z == size - 1) {
+          newBlockColor = REDGRNYLW;
+        } else if (x == size - 1 && 
+                   y == 0 &&
+                   z == 0) {
+          newBlockColor = BLUORGYLW;
+        } else if (x == size - 1 && 
+                   y == 0 &&
+                   z == size - 1) {
+          newBlockColor = ORGGRNYLW;
+        } else {
+          newBlockColor = BLK;
+        }
+        
+        // std::cout << newBlockColor << std::endl;
+        blocks[x][y][z] = new Block(newBlockColor,
                                     glm::vec3(2*(x - posOffset), 
                                               2*(y - posOffset), 
                                               2*(z - posOffset)),
@@ -37,6 +151,44 @@ Cube::Cube(int size) :
       }
     }
   }
+
+  // Load textures
+  std::string fileNames[NUM_COLORS] = {
+    "BLK",
+    "WHT",
+    "RED",
+    "BLU",
+    "ORG",
+    "GRN",
+    "YLW",
+    "WHTRED",
+    "WHTBLU",
+    "WHTORG",
+    "WHTGRN",
+    "REDBLU",
+    "REDGRN",
+    "REDYLW",
+    "BLUORG",
+    "BLUYLW",
+    "ORGGRN",
+    "ORGYLW",
+    "GRNYLW",
+    "WHTREDBLU",
+    "WHTREDGRN",
+    "WHTBLUORG",
+    "WHTORGGRN",
+    "REDBLUYLW",
+    "REDGRNYLW",
+    "BLUORGYLW",
+    "ORGGRNYLW"
+  };
+
+  for (int i = 0; i < NUM_COLORS; i++) {
+    std::string fileName = "res/block_tex_" + fileNames[i] + ".png";
+    // std::cout << fileName << std::endl;
+    fileNames[i] = fileName;
+  }
+  m_textures = new Texture(NUM_COLORS, fileNames);
 }
 
 void Cube::SetRotation(Dim axis, int n, bool clockwise) {
@@ -259,7 +411,10 @@ void Cube::Draw(Shader &shader, Transform &transform,
     for (int y = 0; y < size; y++) {
       for (int x = 0; x < size; x++) {
         shader.Bind();
-        this->GetTex(x, y, z).Bind(0);
+        
+        m_textures->Bind(0, blocks[x][y][z]->GetCol());
+        //m_textures[blocks[x][y][z]->GetCol()].Bind(0);
+        
         transform.SetPos( this->GetPos(x, y, z) );
         transform.SetRot( this->GetRot(x, y, z) );
         
@@ -330,4 +485,5 @@ Cube::~Cube() {
       }
     }
   }
+  delete m_textures;
 }

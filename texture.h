@@ -6,17 +6,18 @@
 
 class Texture {
   public:
-    Texture(const std::string& fileName);
+    Texture(int numTextures, const std::string fileNames[]);
 
-    void Bind(unsigned int unit);
+    void Bind(unsigned int unit, int texture);
 
     virtual ~Texture();
   protected:
   private:
-    Texture(const Texture& other) {}
-    void operator=(const Texture& other) {}
+    //Texture(const Texture& other) {}
+    //void operator=(const Texture& other) {}
 
-    GLuint m_texture;
+    GLsizei m_numTextures;
+    GLuint* m_textures;
 };
 
 #endif // TEXTURE_H

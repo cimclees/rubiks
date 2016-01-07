@@ -97,18 +97,6 @@ class Cube {
     void SelectBlock(const glm::vec3& rayStart, const glm::vec3& rayDir);
 
     /**
-     * Get the texture associated with a block on a cube.
-     *
-     * @param x Position of desired block on cube along x-axis.
-     * @param y Position of desired block on cube along y-axis.
-     * @param z Position of desired block on cube along z-axis.
-     * @return The associated texture object.
-     */
-    inline Texture& GetTex(int x, int y, int z) { 
-      return blocks[x][y][z]->GetTex(); 
-    }
-    
-    /**
      * Get the spacial position of a block on a cube.
      *
      * @param x Position of desired block on cube along x-axis.
@@ -149,7 +137,9 @@ class Cube {
   private:
     int size;
     std::vector< std::vector< std::vector <Block*> > > blocks;
+    Texture* m_textures;
 
+    // Rotation data
     Dim  currRotateAxis;
     int  currRotateN;
     bool currRotateClockwise;

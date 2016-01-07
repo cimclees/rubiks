@@ -16,17 +16,51 @@
 #include <glm/gtx/transform.hpp>
 #include "texture.h"
 
+/**
+ * @enum Color combinations possible for blocks.
+ */
+enum Col {
+  BLK = 0,
+  WHT,
+  RED,
+  BLU,
+  ORG,
+  GRN,
+  YLW,
+  WHTRED,
+  WHTBLU,
+  WHTORG,
+  WHTGRN,
+  REDBLU,
+  REDGRN,
+  REDYLW,
+  BLUORG,
+  BLUYLW,
+  ORGGRN,
+  ORGYLW,
+  GRNYLW,
+  WHTREDBLU,
+  WHTREDGRN,
+  WHTBLUORG,
+  WHTORGGRN,
+  REDBLUYLW,
+  REDGRNYLW,
+  BLUORGYLW,
+  ORGGRNYLW,
+
+  NUM_COLORS
+};
+
 class Block {
   public:
     /**
-     * Constructor for a generic block.
+     * Constructor for a block.
      *
-     * @param fileName Path of the texture file to associate with the block.
+     * @param color The color combination of the block.
      * @param pos Initial position of the block.
      * @param rot Initial rotation of the block.
      */
-    Block(const std::string& fileName, const glm::vec3& pos, 
-          const glm::vec3& rot);
+    Block(Col color, const glm::vec3& pos, const glm::vec3& rot);
     
     /**
      * Rotate a block along the x-axis, about its position.
@@ -50,12 +84,12 @@ class Block {
     void RotZ(const float& angle);
 
     /**
-     * Get the texture associated with a block.
+     * Get the color of a block.
      *
-     * @return The associated texture object.
+     * @return The color.
      */
-    inline Texture& GetTex() { return m_texture; }
-
+    inline Col& GetCol() { return m_color; }
+    
     /**
      * Get the position of a block.
      *
@@ -71,7 +105,7 @@ class Block {
     inline glm::mat4& GetRot() { return m_rotation; }
   protected:
   private:
-    Texture m_texture;
+    Col m_color;
     glm::vec3 m_position;
     glm::mat4 m_rotation; 
 };
