@@ -55,7 +55,6 @@ int main() {
   // Create a cube object of size 3x3x3.
   Cube cube(cubeSize);
   
-
   bool quit       = false,  // True when the user has closed the window.
        rightClick = false;  // True when right mouse button is held down.
   // Iterate over drawn frames.
