@@ -12,8 +12,6 @@
 #include <cstdlib>
 #include "cube.h"
 
-#include<iostream>
-
 #define ROTATION_FRAMES 60
 
 Cube::Cube(int size) :
@@ -33,7 +31,6 @@ Cube::Cube(int size) :
       for (int x = 0; x < size; x++) {
         
         Col newBlockColor;
-        
         if (x == 0 && 
             y != 0 && y != size - 1 &&
             z != 0 && z != size - 1) {
@@ -142,7 +139,6 @@ Cube::Cube(int size) :
           newBlockColor = BLK;
         }
         
-        // std::cout << newBlockColor << std::endl;
         blocks[x][y][z] = new Block(newBlockColor,
                                     glm::vec3(2*(x - posOffset), 
                                               2*(y - posOffset), 
@@ -185,7 +181,6 @@ Cube::Cube(int size) :
 
   for (int i = 0; i < NUM_COLORS; i++) {
     std::string fileName = "res/block_tex_" + fileNames[i] + ".png";
-    // std::cout << fileName << std::endl;
     fileNames[i] = fileName;
   }
   m_textures = new Texture(NUM_COLORS, fileNames);
@@ -443,17 +438,20 @@ void Cube::SelectBlock(const glm::vec3& rayStart, const glm::vec3& rayDir) {
   int y = 0;
   int z = 0;
 
+  float halfSize = static_cast<float>(size); // / 2.0f;
+
   // Get close to cube.
-  while (fabs(currPoint.x) > size + 0.1f &&
-         fabs(currPoint.y) > size + 0.1f &&
-         fabs(currPoint.z) > size + 0.1f) {
+  while (fabs(currPoint.x) > halfSize + 0.1f &&
+         fabs(currPoint.y) > halfSize + 0.1f &&
+         fabs(currPoint.z) > halfSize + 0.1f) {
     currPoint += delta;
   }
 
+  currPoint -= delta;
   // Iterate over points on ray.
-  while (!found && (    fabs(currPoint.x) < size + 0.2f
-                    ||  fabs(currPoint.y) < size + 0.2f
-                    ||  fabs(currPoint.z) < size + 0.2f)) {
+  while (!found && (   fabs(currPoint.x) < halfSize + 0.2f
+                    || fabs(currPoint.y) < halfSize + 0.2f
+                    || fabs(currPoint.z) < halfSize + 0.2f)) {
 
     currPoint += delta;
   
