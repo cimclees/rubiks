@@ -11,12 +11,12 @@
 #define CUBE_H
 
 #include <vector>
-#include "block.h"
-#include "texture.h"
-#include "shader.h"
-#include "transform.h"
-#include "camera.h"
-#include "mesh.h"
+#include "./block.h"
+#include "./texture.h"
+#include "./shader.h"
+#include "./transform.h"
+#include "./camera.h"
+#include "./mesh.h"
 
 /**
  * @enum Dimensions of rotation and translation.

@@ -1,41 +1,45 @@
-rubiks: rubiks.o display.o shader.o mesh.o stb_image.o texture.o transform.o \
-camera.o obj_loader.o block.o cube.o
-	g++ -g -Wall -std=c++11 -o rubiks rubiks.o display.o shader.o mesh.o \
-stb_image.o texture.o transform.o camera.o obj_loader.o block.o cube.o \
+rubiks: build/rubiks.o build/display.o build/shader.o build/mesh.o \
+build/stb_image.o build/texture.o build/transform.o build/camera.o \
+build/obj_loader.o build/block.o build/cube.o
+	g++ -g -Wall -std=c++11 -o rubiks build/rubiks.o build/display.o \
+build/shader.o build/mesh.o build/stb_image.o build/texture.o \
+build/transform.o build/camera.o build/obj_loader.o build/block.o build/cube.o \
 -l SDL2 -l GL -l GLEW 
 
-rubiks.o: rubiks.cc display.h shader.h mesh.h transform.h camera.h cube.h
-	g++ -g -Wall -std=c++11 -c rubiks.cc
+build/rubiks.o: src/rubiks.cc include/display.h include/shader.h \
+include/mesh.h include/transform.h include/camera.h include/cube.h
+	g++ -g -Wall -std=c++11 -c src/rubiks.cc -o build/rubiks.o
 
-display.o: display.cc display.h
-	g++ -g -Wall -std=c++11 -c display.cc
+build/display.o: src/display.cc include/display.h
+	g++ -g -Wall -std=c++11 -c src/display.cc -o build/display.o
 
-shader.o: shader.cc shader.h transform.h
-	g++ -g -Wall -std=c++11 -c shader.cc
+build/shader.o: src/shader.cc include/shader.h include/transform.h
+	g++ -g -Wall -std=c++11 -c src/shader.cc -o build/shader.o
 
-mesh.o: mesh.cc mesh.h extern/obj_loader.h
-	g++ -g -Wall -std=c++11 -c mesh.cc
+build/mesh.o: src/mesh.cc include/mesh.h lib/obj_loader.h
+	g++ -g -Wall -std=c++11 -c src/mesh.cc -o build/mesh.o
 
-stb_image.o: extern/stb_image.c extern/stb_image.h
-	gcc -g -Wall -std=c11 -c extern/stb_image.c
+build/stb_image.o: lib/stb_image.c lib/stb_image.h
+	gcc -g -Wall -std=c11 -c lib/stb_image.c -o build/stb_image.o
 
-texture.o: texture.cc texture.h extern/stb_image.h
-	g++ -g -Wall -std=c++11 -c texture.cc
+build/texture.o: src/texture.cc include/texture.h lib/stb_image.h
+	g++ -g -Wall -std=c++11 -c src/texture.cc -o build/texture.o
 
-transform.o: transform.cc transform.h
-	g++ -g -Wall -std=c++11 -c transform.cc
+build/transform.o: src/transform.cc include/transform.h
+	g++ -g -Wall -std=c++11 -c src/transform.cc -o build/transform.o
 
-camera.o: camera.cc camera.h
-	g++ -g -Wall -std=c++11 -c camera.cc
+build/camera.o: src/camera.cc include/camera.h
+	g++ -g -Wall -std=c++11 -c src/camera.cc -o build/camera.o
 
-obj_loader.o: extern/obj_loader.cc extern/obj_loader.h
-	g++ -g -Wall -std=c++11 -c extern/obj_loader.cc
+build/obj_loader.o: lib/obj_loader.cc lib/obj_loader.h
+	g++ -g -Wall -std=c++11 -c lib/obj_loader.cc -o build/obj_loader.o
 
-block.o: block.cc block.h texture.h
-	g++ -g -Wall -std=c++11 -c block.cc
+build/block.o: src/block.cc include/block.h include/texture.h
+	g++ -g -Wall -std=c++11 -c src/block.cc -o build/block.o
 
-cube.o: cube.cc cube.h block.h texture.h shader.h transform.h camera.h mesh.h
-	g++ -g -Wall -std=c++11 -c cube.cc
+build/cube.o: src/cube.cc include/cube.h include/block.h include/texture.h \
+include/shader.h include/transform.h include/camera.h include/mesh.h
+	g++ -g -Wall -std=c++11 -c src/cube.cc -o build/cube.o
 
 clean:
-	rm *.o rubiks
+	rm -f build/* rubiks

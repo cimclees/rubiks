@@ -8,7 +8,7 @@
  * block of a Rubik's Cube.
  */
 
-#include "block.h"
+#include "../include/block.h"
 
 Block::Block(Col color, const glm::vec3& pos, const glm::vec3& rot):
   m_position(pos),

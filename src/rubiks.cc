@@ -9,12 +9,12 @@
 
 #include <glm/glm.hpp>
 #include <SDL2/SDL.h>
-#include "./display.h"
-#include "./mesh.h"
-#include "./shader.h"
-#include "./camera.h"
-#include "./transform.h"
-#include "./cube.h"
+#include "../include/display.h"
+#include "../include/mesh.h"
+#include "../include/shader.h"
+#include "../include/camera.h"
+#include "../include/transform.h"
+#include "../include/cube.h"
 
 // Window size
 #define WIDTH 800

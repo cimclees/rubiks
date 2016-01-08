@@ -1,5 +1,5 @@
-#include "mesh.h"
 #include<vector>
+#include "../include/mesh.h"
 
 Mesh::Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices,
            unsigned int numIndices) {

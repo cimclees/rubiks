@@ -1,6 +1,6 @@
-#include "shader.h"
 #include <fstream>
 #include <iostream>
+#include "../include/shader.h"
 
 static void CheckShaderError(GLuint shader, GLuint flag, bool isProgram,
                              const std::string& errorMessage);

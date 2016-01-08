@@ -14,7 +14,7 @@
 #include <string>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
-#include "texture.h"
+#include "./texture.h"
 
 /**
  * @enum Color combinations possible for blocks.

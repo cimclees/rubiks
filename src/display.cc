@@ -1,6 +1,6 @@
 #include <iostream>
-#include "display.h"
 #include <GL/glew.h>
+#include "../include/display.h"
 
 Display::Display(int width, int height, const std::string& title) {
   SDL_Init(SDL_INIT_EVERYTHING);

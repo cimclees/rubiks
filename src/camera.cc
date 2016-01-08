@@ -8,7 +8,7 @@
  */
 
 #include <glm/gtx/transform.hpp>
-#include "./camera.h"
+#include "../include/camera.h"
 
 Camera::Camera(float fov, float aspect, float zNear, float zFar, float dist) {
   m_perspective = glm::perspective(fov, aspect, zNear, zFar);

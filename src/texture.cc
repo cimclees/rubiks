@@ -1,7 +1,7 @@
-#include "texture.h"
-#include "extern/stb_image.h"
 #include <cassert>
 #include <iostream>
+#include "../include/texture.h"
+#include "../lib/stb_image.h"
 
 Texture::Texture(int numTextures, const std::string fileNames[]) {
   

@@ -10,7 +10,7 @@
 
 #include <cmath>
 #include <cstdlib>
-#include "cube.h"
+#include "../include/cube.h"
 
 #define ROTATION_FRAMES 60
 
