@@ -43,9 +43,9 @@ int main() {
   // Open a window.
   Display display(WIDTH, HEIGHT, "Rubik's Cube");
   // Load 3D data for a block model.
-  Mesh blockMesh("./res/block.obj");
+  Mesh blockMesh("./data/model/block.obj");
   // Initialize shader.
-  Shader shader("./res/basicShader");
+  Shader shader("./data/shader/basicShader");
   // Create a camera object to manipulate positional perspective.
   Camera camera(70.0f, static_cast<float>(WIDTH) / HEIGHT, 0.01f, 1000.0f,
                 (cubeSize + 1.0f) * 3.0f);

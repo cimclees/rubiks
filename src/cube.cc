@@ -180,7 +180,7 @@ Cube::Cube(int size) :
   };
 
   for (int i = 0; i < NUM_COLORS; i++) {
-    std::string fileName = "res/block_tex_" + fileNames[i] + ".png";
+    std::string fileName = "./data/image/block_tex_" + fileNames[i] + ".png";
     fileNames[i] = fileName;
   }
   m_textures = new Texture(NUM_COLORS, fileNames);
