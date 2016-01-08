@@ -5,17 +5,17 @@ of game programming using OpenGL, SDL, etc.
 
 To Build on Linux:
   1. First install required packages:
-     libsdl2-dev
-     libglew-dev
-     libglm-dev
+    * libsdl2-dev
+    * libglew-dev
+    * libglm-dev
   2. Run 'make' from the main project directory ('rubiks')
 
 Controls:
-  ~ Hold right click and move mouse to adjust view.
-  ~ Click to select a block to rotate.
-  ~ Click off the cube to unselect a block.
-  ~ Use comma, period, and arrow keys to perform rotations.
-  ~ Use the 'r' key to perform a random rotation.
+  * Hold right click and move mouse to adjust view.
+  * Click to select a block to rotate.
+  * Click off the cube to unselect a block.
+  * Use comma, period, and arrow keys to perform rotations.
+  * Use the 'r' key to perform a random rotation.
 
 Much of the OpenGL code is adapted from a tutorial made by 'thebennybox': 
 https://www.youtube.com/channel/UCnlpv-hhcsAtEHKR2y2fW4Q
