@@ -438,20 +438,19 @@ void Cube::SelectBlock(const glm::vec3& rayStart, const glm::vec3& rayDir) {
   int y = 0;
   int z = 0;
 
-  float halfSize = static_cast<float>(size); // / 2.0f;
+  float halfSideLength = static_cast<float>(size);
 
   // Get close to cube.
-  while (fabs(currPoint.x) > halfSize + 0.1f &&
-         fabs(currPoint.y) > halfSize + 0.1f &&
-         fabs(currPoint.z) > halfSize + 0.1f) {
+  while (fabs(currPoint.x) > halfSideLength + 0.1f &&
+         fabs(currPoint.y) > halfSideLength + 0.1f &&
+         fabs(currPoint.z) > halfSideLength + 0.1f) {
     currPoint += delta;
   }
 
-  currPoint -= delta;
   // Iterate over points on ray.
-  while (!found && (   fabs(currPoint.x) < halfSize + 0.2f
-                    || fabs(currPoint.y) < halfSize + 0.2f
-                    || fabs(currPoint.z) < halfSize + 0.2f)) {
+  while (!found && (   fabs(currPoint.x) < halfSideLength + 0.2f
+                    || fabs(currPoint.y) < halfSideLength + 0.2f
+                    || fabs(currPoint.z) < halfSideLength + 0.2f)) {
 
     currPoint += delta;
   
