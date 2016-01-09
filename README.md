@@ -8,7 +8,11 @@ To Build on Linux:
     * libsdl2-dev
     * libglew-dev
     * libglm-dev
+  
   2. Run 'make' from the main project directory ('rubiks')
+  
+  3. The game will be built and saved as an executable named 'rubiks' in the
+     main project directory.
 
 Controls:
   * Hold right click and move mouse to adjust view.
