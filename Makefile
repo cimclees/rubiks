@@ -1,9 +1,9 @@
 rubiks: build/rubiks.o build/display.o build/shader.o build/mesh.o \
-build/stb_image.o build/texture.o build/transform.o build/camera.o \
-build/obj_loader.o build/block.o build/cube.o
+build/stb_image.o build/texture.o build/camera.o build/obj_loader.o \
+build/block.o build/cube.o
 	g++ -g -Wall -std=c++11 -o rubiks build/rubiks.o build/display.o \
-build/shader.o build/mesh.o build/stb_image.o build/texture.o \
-build/transform.o build/camera.o build/obj_loader.o build/block.o build/cube.o \
+build/shader.o build/mesh.o build/stb_image.o build/texture.o build/camera.o \
+build/obj_loader.o build/block.o build/cube.o \
 -l SDL2 -l GL -l GLEW 
 
 build/rubiks.o: src/rubiks.cc include/display.h include/shader.h \
@@ -24,9 +24,6 @@ build/stb_image.o: lib/stb_image.c lib/stb_image.h
 
 build/texture.o: src/texture.cc include/texture.h lib/stb_image.h
 	g++ -g -Wall -std=c++11 -c src/texture.cc -o build/texture.o
-
-build/transform.o: src/transform.cc include/transform.h
-	g++ -g -Wall -std=c++11 -c src/transform.cc -o build/transform.o
 
 build/camera.o: src/camera.cc include/camera.h
 	g++ -g -Wall -std=c++11 -c src/camera.cc -o build/camera.o
