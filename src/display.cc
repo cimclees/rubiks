@@ -1,3 +1,13 @@
+/**
+ * @file display.cc
+ * @author Charles Ian Mclees
+ *  
+ * @section DESCRIPTION
+ *
+ * This file contains the implementation of a class to manage a window using
+ * SDL which will render a 3D environment using OpenGL.
+ */
+
 #include <iostream>
 #include <GL/glew.h>
 #include "../include/display.h"
@@ -5,6 +15,7 @@
 Display::Display(int width, int height, const std::string& title) {
   SDL_Init(SDL_INIT_EVERYTHING);
 
+  // Set up buffers
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
@@ -38,12 +49,6 @@ Display::Display(int width, int height, const std::string& title) {
   glEnable(GL_MULTISAMPLE);
 }
 
-Display::~Display() {
-  SDL_GL_DeleteContext(m_glContext);
-  SDL_DestroyWindow(m_window);
-  SDL_Quit();
-}
-
 void Display::Clear(float r, float g, float b, float a) {
     glClearColor(r, g, b, a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -58,4 +63,10 @@ void Display::Update(bool quit) {
   if (quit) {
     m_isClosed = true;
   }
+}
+
+Display::~Display() {
+  SDL_GL_DeleteContext(m_glContext);
+  SDL_DestroyWindow(m_window);
+  SDL_Quit();
 }

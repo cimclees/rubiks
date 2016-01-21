@@ -1,3 +1,12 @@
+/**
+ * @file shader.cc
+ * @author Charles Ian Mclees
+ *  
+ * @section DESCRIPTION
+ *
+ * This file contains the implementation of an OpenGL shader.
+ */
+
 #include <fstream>
 #include <iostream>
 #include "../include/shader.h"
@@ -33,14 +42,6 @@ Shader::Shader(const std::string& fileName) {
 
 }
 
-Shader::~Shader() {
-  for (unsigned int i = 0; i < NUM_SHADERS; i++) {
-    glDetachShader(m_program, m_shaders[i]);
-    glDeleteShader(m_shaders[i]);
-  }
-  glDeleteProgram(m_program);
-}
-
 void Shader::Bind() {
   glUseProgram(m_program);
 }
@@ -50,6 +51,23 @@ void Shader::Update(const Transform& transform, const Camera& camera) {
   glUniformMatrix4fv(m_uniforms[TRANSFORM_U], 1, GL_FALSE, &model[0][0]);
 }
 
+Shader::~Shader() {
+  for (unsigned int i = 0; i < NUM_SHADERS; i++) {
+    glDetachShader(m_program, m_shaders[i]);
+    glDeleteShader(m_shaders[i]);
+  }
+  glDeleteProgram(m_program);
+}
+
+/**** Shader intialization functions below. ****/
+
+/**
+ * Intialize a shader in OpenGL.
+ *
+ * @param text Code for shader program.
+ * @param shaderType Shader type (vertex or fragment)
+ * @return The index of the new shader.
+ */
 static GLuint CreateShader(const std::string& text, GLenum shaderType) {
   GLuint shader = glCreateShader(shaderType);
 
@@ -72,6 +90,12 @@ static GLuint CreateShader(const std::string& text, GLenum shaderType) {
   return shader;
 }
 
+/**
+ * Load text of a shader program.
+ *
+ * @param fileName the shader program to load.
+ * @return the text of the specified file.
+ */
 static std::string LoadShader(const std::string& fileName) {
   std::ifstream file;
   file.open((fileName).c_str());
@@ -91,6 +115,14 @@ static std::string LoadShader(const std::string& fileName) {
   return output;
 }
 
+/**
+ * Ensure shader loaded successfully.
+ *
+ * @param shader The index of the shader to be checked.
+ * @param flag Property to check.
+ * @param isProgram True to check program, false for shader.
+ * @param errorMessage Output message if check fails.
+ */
 static void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, 
                               const std::string& errorMessage) {
   GLint success = 0;

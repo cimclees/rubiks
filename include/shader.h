@@ -1,4 +1,11 @@
-
+/**
+ * @file shader.h
+ * @author Charles Ian Mclees
+ *  
+ * @section DESCRIPTION
+ *
+ * This file contains the declerations of an OpenGL shader.
+ */
 
 #ifndef SHADER_H
 #define SHADER_H
@@ -10,18 +17,40 @@
 
 class Shader {
   public:
+    /**
+     * Constructor for a shader.
+     *
+     * @param filename Filename for vertex shader and fragment shader, to be
+     *    appended with ".vs" and ".fs" respectively, and loaded from
+     *    "../data/shader".
+     */
     Shader(const std::string& filename);
 
+    /**
+     * Activate a shader to be used in a mesh rendering.
+     */
     void Bind();
+
+    /**
+     * Update a shader to reflect transforms applied to a mesh and camera
+     *    angle and position.
+     *
+     * @param transform Transforms applied to an object to be shaded.
+     * @param camera Active camera object.
+     */
     void Update(const Transform& transform, const Camera& camera);
 
-    virtual ~Shader();
+    /**
+     * Descructor for a shader object.
+     */
+    ~Shader();
   protected:
   private:
     static const unsigned int NUM_SHADERS = 2;
-    Shader(const Shader& other) {}
-    void operator=(const Shader& other) {}
-
+    
+    /**
+     * @enum Shader program parameters.
+     */
     enum {
       TRANSFORM_U,
 

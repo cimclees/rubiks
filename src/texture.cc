@@ -1,3 +1,12 @@
+/**
+ * @file texture.cc
+ * @author Charles Ian Mclees
+ *  
+ * @section DESCRIPTION
+ *
+ * This file contains the implementation of a class to manage OpenGL textures.
+ */
+
 #include <cassert>
 #include <iostream>
 #include "../include/texture.h"
