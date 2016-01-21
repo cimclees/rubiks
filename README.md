@@ -14,6 +14,10 @@ To Build on Linux:
   3. The game will be built and saved as an executable named 'rubiks' in the
      main project directory.
 
+Settings
+  * Adjust cube size, window dimensions, and mouse sensitivity in the
+    'Settings' file in the main project directory ('rubiks)
+
 Controls:
   * Hold right click and move mouse to adjust view.
   * Click to select a block to rotate.

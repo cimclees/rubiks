@@ -1,0 +1,9 @@
+// Number of blocks on cube (CUBE_SIZE x CUBE_SIZE x CUBE_SIZE)
+#define CUBE_SIZE 3
+
+// Window size
+#define WIDTH 800
+#define HEIGHT 600
+
+// Mouse sensitivity
+#define MOUSE_SENS 0.005f
