@@ -41,7 +41,8 @@ class Shader {
     void Update(const Transform& transform, const Camera& camera);
 
     /**
-     * Descructor for a shader object.
+     * Descructor for a shader object. Unload shader from graphics card
+     *    via OpenGL.
      */
     ~Shader();
   protected:
