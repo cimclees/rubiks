@@ -15,7 +15,7 @@ Camera::Camera(float fov, float aspect, float zNear, float zFar, float dist) {
   m_position = glm::vec3(0.0f, 0.0f, 0.0f);
   m_forward = glm::vec3(0.0f, 0.0f, 1.0f);
   m_up = glm::vec3(0.0f, 1.0f, 0.0f);
-  m_horizOffset = PI / 4.0f;
+  m_horizOffset = 5.0f * (PI / 16.0f);
   m_vertOffset = PI / 4.0f;
   m_dist = dist;
 }
