@@ -14,7 +14,7 @@ To Build on Linux:
   3. The game will be built and saved as an executable named 'rubiks' in the
      main project directory.
 
-Settings
+Settings:
   * Adjust cube size, window dimensions, and mouse sensitivity in the
     'Settings' file in the main project directory ('rubiks)
   * Recompile to apply new settings
