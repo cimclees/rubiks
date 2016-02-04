@@ -16,7 +16,7 @@ To Build on Linux:
 
 Settings:
   * Adjust cube size, window dimensions, and mouse sensitivity in the
-    'settings.conf' file in the main project directory ('rubiks)
+    'settings.conf' file in the main project directory ('rubiks')
 
 Controls:
   * Hold right click and move mouse to adjust view.
