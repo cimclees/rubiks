@@ -26,7 +26,7 @@ class Camera{
      * @param dist The distance from the origin the camera should be.
      */
     Camera(float fov, float aspect, float zNear, float zFar, float dist);
-    
+
     /**
      * Get the position of a camera in 3D space.
      *
@@ -40,7 +40,7 @@ class Camera{
      * @return The forward direction relative to the camera.
      */
     inline glm::vec3& GetFor() { return m_forward; }
-    
+
     /**
      * Get the horizontal offset of the camera.  Offset values are used to 
      * position the camera so that it always faces the origin.
@@ -48,7 +48,7 @@ class Camera{
      * @return The horizontal offset of the camera.
      */
     inline float& GetHoriz() { return m_horizOffset; }
-    
+
     /**
      * Get the vertical offset of the camera.  Offset values are used to 
      * position the camera so that it always faces the origin.
@@ -63,14 +63,14 @@ class Camera{
      * by GetHoriz and GetVert.
      */
     void PositionCam();
-    
+
     /**
      * Get the projection view matrix of a camera.
      *
      * @return The projection view matrix.
      */
     inline glm::mat4 GetViewProjection() const {
-      return m_perspective * glm::lookAt(m_position, 
+      return m_perspective * glm::lookAt(m_position,
                                          m_position + m_forward, m_up);
     }
 
@@ -87,7 +87,7 @@ class Camera{
 
   protected:
   private:
-    glm::mat4 m_perspective; // Projection
+    glm::mat4 m_perspective;  // Projection
     glm::vec3 m_position;
     glm::vec3 m_forward;
     glm::vec3 m_up;
@@ -96,4 +96,4 @@ class Camera{
     float m_dist;
 };
 
-#endif // CAMERA_H
+#endif  // CAMERA_H

@@ -21,13 +21,13 @@ class Transform {
      * @param pos Initial position to use for transform.
      * @param scale Initial scale to use for transform.
      */
-    Transform(const glm::vec3& pos   = glm::vec3(), 
+    Transform(const glm::vec3& pos   = glm::vec3(),
               const glm::vec3& scale = glm::vec3(1.0f, 1.0f, 1.0f)) :
       m_pos(pos),
       m_rotMat(),
       m_scale(scale) {
     }
-    
+
     /**
      * Get a model matrix to contain position, scale, and rotation information.
      *
@@ -36,10 +36,10 @@ class Transform {
     inline glm::mat4 GetModel() const {
       glm::mat4 posMatrix = glm::translate(m_pos);
       glm::mat4 scaleMatrix = glm::scale(m_scale);
-      
+
       return posMatrix * m_rotMat * scaleMatrix;
     }
-   
+
     /**
      * Set the position of an object.
      * 
@@ -68,4 +68,4 @@ class Transform {
     glm::vec3 m_scale;
 };
 
-#endif // TRANSFORM_H
+#endif  // TRANSFORM_H

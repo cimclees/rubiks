@@ -61,7 +61,7 @@ class Block {
      * @param rot Initial rotation of the block.
      */
     Block(Col color, const glm::vec3& pos, const glm::vec3& rot);
-    
+
     /**
      * Rotate a block along the x-axis, about its position.
      *
@@ -89,14 +89,14 @@ class Block {
      * @return The color.
      */
     inline Col& GetCol() { return m_color; }
-    
+
     /**
      * Get the position of a block.
      *
      * @return The position.
      */
     inline glm::vec3& GetPos() { return m_position; }
-    
+
     /**
      * Get the rotation matrix of a block.
      *
@@ -107,7 +107,7 @@ class Block {
   private:
     Col m_color;
     glm::vec3 m_position;
-    glm::mat4 m_rotation; 
+    glm::mat4 m_rotation;
 };
 
-#endif // BLOCK_H
+#endif  // BLOCK_H

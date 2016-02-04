@@ -15,7 +15,6 @@
 #include <string>
 
 class Display {
-
   public:
     /**
      * Constructor for a display object.
@@ -34,7 +33,7 @@ class Display {
      * @param a Alpha value.
      */
     void Clear(float r, float g, float b, float a);
-    
+
     /**
      * Update display with next rendered frame from OpenGL.
      *
@@ -48,7 +47,7 @@ class Display {
      * @return True if the display is closed, otherwise false.
      */
     bool IsClosed();
-    
+
     /**
      * Display descructor.
      */
@@ -60,4 +59,4 @@ class Display {
     bool m_isClosed;
 };
 
-#endif // DISPLAY_H
+#endif  // DISPLAY_H

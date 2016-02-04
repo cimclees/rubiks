@@ -48,7 +48,7 @@ class Shader {
   protected:
   private:
     static const unsigned int NUM_SHADERS = 2;
-    
+
     /**
      * @enum Shader program parameters.
      */
@@ -63,4 +63,4 @@ class Shader {
     GLuint m_uniforms[NUM_UNIFORMS];
 };
 
-#endif // SHADER_H
+#endif  // SHADER_H

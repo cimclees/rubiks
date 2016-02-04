@@ -22,40 +22,39 @@ Cube::Cube(int size) :
   this->currRotateN = 0;
   this->currRotateClockwise = true;
   this->currRotateSteps = 0;
-  this->selected = glm::vec3(-1, -1, -1); // No cube selected
-  
+  this->selected = glm::vec3(-1, -1, -1);  // No cube selected
+
   float posOffset = (static_cast<float>(size) - 1.0f) / 2.0f;
   // Create blocks on cube.
   for (int z = 0; z < size; z++) {
     for (int y = 0; y < size; y++) {
       for (int x = 0; x < size; x++) {
-        
         Col newBlockColor;
-        if (x == 0 && 
+        if (x == 0 &&
             y != 0 && y != size - 1 &&
             z != 0 && z != size - 1) {
           newBlockColor = WHT;
-        } else if (x != 0 && x != size - 1 && 
+        } else if (x != 0 && x != size - 1 &&
                    y == size - 1 &&
                    z != 0 && z != size - 1) {
           newBlockColor = RED;
-        } else if (x != 0 && x != size - 1 && 
+        } else if (x != 0 && x != size - 1 &&
                    y != 0 && y != size - 1 &&
                    z == 0) {
           newBlockColor = BLU;
-        } else if (x != 0 && x != size - 1 && 
+        } else if (x != 0 && x != size - 1 &&
                    y == 0 &&
                    z != 0 && z != size - 1) {
           newBlockColor = ORG;
-        } else if (x != 0 && x != size - 1 && 
+        } else if (x != 0 && x != size - 1 &&
                    y != 0 && y != size - 1 &&
                    z == size - 1) {
           newBlockColor = GRN;
-        } else if (x == size - 1 && 
+        } else if (x == size - 1 &&
                    y != 0 && y != size - 1 &&
                    z != 0 && z != size - 1) {
           newBlockColor = YLW;
-        } else if (x == 0 && 
+        } else if (x == 0 &&
                    y == size - 1 &&
                    z != 0 && z != size - 1) {
           newBlockColor = WHTRED;
@@ -71,43 +70,43 @@ Cube::Cube(int size) :
                    y != 0 && y != size - 1 &&
                    z == size - 1) {
           newBlockColor = WHTGRN;
-        } else if (x != 0 && x != size - 1 && 
+        } else if (x != 0 && x != size - 1 &&
                    y == size - 1 &&
                    z == 0) {
           newBlockColor = REDBLU;
-        } else if (x != 0 && x != size - 1 && 
+        } else if (x != 0 && x != size - 1 &&
                    y == size - 1 &&
                    z == size - 1) {
           newBlockColor = REDGRN;
-        } else if (x == size - 1 && 
+        } else if (x == size - 1 &&
                    y == size - 1 &&
                    z != 0 && z != size - 1) {
           newBlockColor = REDYLW;
-        } else if (x != 0 && x != size - 1 && 
+        } else if (x != 0 && x != size - 1 &&
                    y == 0 &&
                    z == 0) {
           newBlockColor = BLUORG;
-        } else if (x == size - 1 && 
+        } else if (x == size - 1 &&
                    y != 0 && y != size - 1 &&
                    z == 0) {
           newBlockColor = BLUYLW;
-        } else if (x != 0 && x != size - 1 && 
+        } else if (x != 0 && x != size - 1 &&
                    y == 0 &&
                    z == size - 1) {
           newBlockColor = ORGGRN;
-        } else if (x == size - 1 && 
+        } else if (x == size - 1 &&
                    y == 0 &&
                    z != 0 && z != size - 1) {
           newBlockColor = ORGYLW;
-        } else if (x == size - 1 && 
+        } else if (x == size - 1 &&
                    y != 0 && y != size - 1 &&
                    z == size - 1) {
           newBlockColor = GRNYLW;
-        } else if (x == 0 && 
+        } else if (x == 0 &&
                    y == size - 1 &&
                    z == 0) {
           newBlockColor = WHTREDBLU;
-        } else if (x == 0 && 
+        } else if (x == 0 &&
                    y == size - 1 &&
                    z == size - 1) {
           newBlockColor = WHTREDGRN;
@@ -119,30 +118,30 @@ Cube::Cube(int size) :
                    y == 0 &&
                    z == size - 1) {
           newBlockColor = WHTORGGRN;
-        } else if (x == size - 1 && 
+        } else if (x == size - 1 &&
                    y == size - 1 &&
                    z == 0) {
           newBlockColor = REDBLUYLW;
-        } else if (x == size - 1 && 
+        } else if (x == size - 1 &&
                    y == size - 1 &&
                    z == size - 1) {
           newBlockColor = REDGRNYLW;
-        } else if (x == size - 1 && 
+        } else if (x == size - 1 &&
                    y == 0 &&
                    z == 0) {
           newBlockColor = BLUORGYLW;
-        } else if (x == size - 1 && 
+        } else if (x == size - 1 &&
                    y == 0 &&
                    z == size - 1) {
           newBlockColor = ORGGRNYLW;
         } else {
           newBlockColor = BLK;
         }
-        
+
         blocks[x][y][z] = new Block(newBlockColor,
-                                    glm::vec3(2*(x - posOffset), 
-                                              2*(y - posOffset), 
-                                              2*(z - posOffset)),
+                                    glm::vec3(2 * (x - posOffset),
+                                              2 * (y - posOffset),
+                                              2 * (z - posOffset)),
                                     glm::vec3(0, 0, 0));
       }
     }
@@ -198,7 +197,7 @@ void Cube::SetRotation(Dim axis, int n, bool clockwise) {
 void Cube::SetRandRotation() {
   Dim axis = static_cast<Dim>(rand() % 3);
   int n = rand() % size;
-  bool clockwise = (bool) (rand() % 2);
+  bool clockwise = static_cast<bool>(rand() % 2);
   SetRotation(axis, n, clockwise);
 }
 
@@ -206,9 +205,9 @@ void Cube::UpdateRotation() {
   if (currRotateSteps != 0) {
     int x_min = 0, y_min = 0, z_min = 0;
     int x_max = size, y_max = size, z_max = size;
-    
+
     // Choose correct blocks to rotate.
-    switch(currRotateAxis) {
+    switch (currRotateAxis) {
       case X: {
         x_min = currRotateN;
         x_max = currRotateN + 1;
@@ -225,24 +224,24 @@ void Cube::UpdateRotation() {
         break;
       }
     }
-    
+
     // Rotate blocks.
     for (int x = x_min; x < x_max; x++) {
       for (int y = y_min; y < y_max; y++) {
         for (int z = z_min; z < z_max; z++) {
-          
+
           // Determine angle of rotation.
           float deltaRot = (PI / 2) / ROTATION_FRAMES;
           if (!currRotateClockwise) {
             deltaRot *= -1.0f;
           }
-          
+
           // Choose position values to be modified and update rotation.
           float* adj;
           float* opp;
           bool center;
           int middleIndex = (size - 1) / 2;
-          switch(currRotateAxis) {
+          switch (currRotateAxis) {
             case X: {
               blocks[x][y][z]->RotX(deltaRot);
               adj = &blocks[x][y][z]->GetPos().y;
@@ -273,27 +272,27 @@ void Cube::UpdateRotation() {
               hyp = hyp * -1.0f;
             }
             float theta1 = atan(*opp / *adj);
-            *adj = hyp * cos( theta1 + deltaRot );
-            *opp = hyp * sin( theta1 + deltaRot );
+            *adj = hyp * cos(theta1 + deltaRot);
+            *opp = hyp * sin(theta1 + deltaRot);
           }
         }
       }
     }
-    
+
     // Keep track of amount of rotation.
     currRotateSteps--;
-          
+
     // Check rotation completion.
     if (currRotateSteps == 0) {
- 
-      // Update block positions on cube.     
+      // Update block positions on cube.
       int translate = size - 1;
-      std::vector< std::vector< std::vector <Block*> > > tempBlocks(size, 
+      // Aux pointer matrix.
+      std::vector< std::vector< std::vector <Block*> > > tempBlocks(size,
         std::vector<std::vector<Block*> >(size, std::vector<Block*>(size)));
       for (int x = x_min; x < x_max; x++) {
         for (int y = y_min; y < y_max; y++) {
           for (int z = z_min; z < z_max; z++) {
-            switch(currRotateAxis) {
+            switch (currRotateAxis) {
               case X: {
                 if (currRotateClockwise) {
                   tempBlocks[x][y][z] = blocks[x][z][translate - y];
@@ -329,16 +328,16 @@ void Cube::UpdateRotation() {
           }
         }
       }
-      
+
       // Update selected block
-      switch(currRotateAxis) {
+      switch (currRotateAxis) {
         case X: {
           if (selected.x == currRotateN) {
             if (currRotateClockwise) {
-              selected = 
+              selected =
                 glm::vec3(selected.x, translate - selected.z, selected.y);
             } else {
-              selected = 
+              selected =
                 glm::vec3(selected.x, selected.z, translate - selected.y);
             }
           }
@@ -347,10 +346,10 @@ void Cube::UpdateRotation() {
         case Y: {
           if (selected.y == currRotateN) {
             if (currRotateClockwise) {
-              selected = 
+              selected =
                 glm::vec3(selected.z, selected.y, translate - selected.x);
             } else {
-              selected = 
+              selected =
                 glm::vec3(translate - selected.z, selected.y, selected.x);
             }
           }
@@ -359,10 +358,10 @@ void Cube::UpdateRotation() {
         case Z: {
           if (selected.z == currRotateN) {
             if (currRotateClockwise) {
-              selected = 
+              selected =
                 glm::vec3(translate - selected.y, selected.x, selected.z);
             } else {
-              selected = 
+              selected =
                 glm::vec3(selected.y, translate - selected.x, selected.z);
             }
           break;
@@ -400,25 +399,24 @@ void Cube::RotateXZ(Dim absZgreaterX, bool ZgreatX, bool XgreatZ,
   }
 }
 
-void Cube::Draw(Shader &shader, Transform &transform, 
-                Camera &camera, Mesh &mesh) { 
+void Cube::Draw(Shader &shader, Transform &transform,
+                Camera &camera, Mesh &mesh) {
   for (int z = 0; z < size; z++) {
     for (int y = 0; y < size; y++) {
       for (int x = 0; x < size; x++) {
         shader.Bind();
-        
+
         m_textures->Bind(0, blocks[x][y][z]->GetCol());
-        //m_textures[blocks[x][y][z]->GetCol()].Bind(0);
-        
-        transform.SetPos( this->GetPos(x, y, z) );
-        transform.SetRot( this->GetRot(x, y, z) );
-        
+
+        transform.SetPos(this->GetPos(x, y, z));
+        transform.SetRot(this->GetRot(x, y, z));
+
         if (this->GetSelected() == glm::vec3(x, y, z)) {
-          transform.SetScale( glm::vec3(1.2f, 1.2f, 1.2f) );
+          transform.SetScale(glm::vec3(1.2f, 1.2f, 1.2f));
         } else {
-          transform.SetScale( glm::vec3(1.0f, 1.0f, 1.0f) );
+          transform.SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
         }
-        
+
         shader.Update(transform, camera);
         mesh.Draw();
       }
@@ -451,9 +449,8 @@ void Cube::SelectBlock(const glm::vec3& rayStart, const glm::vec3& rayDir) {
   while (!found && (   fabs(currPoint.x) < halfSideLength + 0.2f
                     || fabs(currPoint.y) < halfSideLength + 0.2f
                     || fabs(currPoint.z) < halfSideLength + 0.2f)) {
-
     currPoint += delta;
-  
+
     // Check point collision with any block.
     for (x = 0; x < size && !found; x++) {
       for (y = 0; y < size && !found; y++) {
@@ -466,7 +463,7 @@ void Cube::SelectBlock(const glm::vec3& rayStart, const glm::vec3& rayDir) {
           }
         }
       }
-    }  
+    }
   }
 
   if (!found) {

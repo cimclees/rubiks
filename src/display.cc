@@ -25,10 +25,10 @@ Display::Display(int width, int height, const std::string& title) {
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
   // Antialiasing
-  //SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-  //SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 8);
+  // SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+  // SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 8);
 
-  m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, 
+  m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, width, height,
                               SDL_WINDOW_OPENGL);
   m_glContext = SDL_GL_CreateContext(m_window);
@@ -52,8 +52,8 @@ Display::Display(int width, int height, const std::string& title) {
 void Display::Clear(float r, float g, float b, float a) {
     glClearColor(r, g, b, a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}  
-  
+}
+
 bool Display::IsClosed() {
   return m_isClosed;
 }

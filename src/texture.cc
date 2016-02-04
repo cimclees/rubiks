@@ -13,16 +13,15 @@
 #include "../lib/stb_image.h"
 
 Texture::Texture(int numTextures, const std::string fileNames[]) {
-  
   m_numTextures = numTextures;
   m_textures = new GLuint[m_numTextures];
 
   glGenTextures(numTextures, m_textures);
-  
+
   for (int i = 0; i < m_numTextures; i++) {
     // Load texture from file using stb_image library
     int width, height, numComponents;
-    unsigned char* imageData = stbi_load(fileNames[i].c_str(), &width, &height, 
+    unsigned char* imageData = stbi_load(fileNames[i].c_str(), &width, &height,
                                          &numComponents, 4);
     if (imageData == NULL) {
       std::cerr << "Texture loading failed for texture: " << fileNames[i]
@@ -40,14 +39,14 @@ Texture::Texture(int numTextures, const std::string fileNames[]) {
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     // Send texture to GPU (load in GL)
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, 
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
                  GL_UNSIGNED_BYTE, imageData);
 
     // Free texture from main memory
     stbi_image_free(imageData);
   }
 }
-    
+
 void Texture::Bind(unsigned int unit, int texture) {
   assert(unit >= 0 && unit <= 31);
   assert(texture >= 0 && texture < m_numTextures);

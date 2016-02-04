@@ -11,6 +11,7 @@
 #ifndef MESH_H
 #define MESH_H
 
+#include <string>
 #include <glm/glm.hpp>
 #include <GL/glew.h>
 #include "../lib/obj_loader.h"
@@ -27,13 +28,13 @@ class Vertex {
      * @param texCoord Texture coordinates to be mapped to vertex.
      * @param normal Normal vector to be used for lighting.
      */
-    Vertex(const glm::vec3& pos, const glm::vec2& texCoord, 
-           const glm::vec3& normal = glm::vec3(0,0,0)) {
+    Vertex(const glm::vec3& pos, const glm::vec2& texCoord,
+           const glm::vec3& normal = glm::vec3(0, 0, 0)) {
       this->pos = pos;
       this->texCoord = texCoord;
       this->normal = normal;
     }
-    
+
     /**
      * Get the position of a vertex.
      *
@@ -56,9 +57,9 @@ class Vertex {
     inline glm::vec3* GetNormal() { return & normal; }
   protected:
   private:
-    glm::vec3 pos;      // Position of vertex
-    glm::vec2 texCoord; // Texture coordinate (pixel) to map to vertex
-    glm::vec3 normal;   // Up direction on a surface
+    glm::vec3 pos;       // Position of vertex.
+    glm::vec2 texCoord;  // Texture coordinate (pixel) to map to vertex.
+    glm::vec3 normal;    // Up direction on a surface.
 };
 
 /**
@@ -119,4 +120,4 @@ class Mesh {
     unsigned int m_drawCount;
 };
 
-#endif // MESH_H
+#endif  // MESH_H

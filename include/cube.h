@@ -51,7 +51,7 @@ class Cube {
      * Start a new rotation on a cube with randomly properties.
      */
     void SetRandRotation();
-    
+
     /**
      * Update position and rotation values of blocks on a cube according to an 
      * ongoing rotation.
@@ -86,7 +86,7 @@ class Cube {
      * @param mesh A mesh.
      */
     void Draw(Shader &shader, Transform &transform, Camera &camera, Mesh &mesh);
-    
+
     /**
      * Select the first block on a cube to intersect a ray.  Unselect a block
      * if no block interesects the ray.
@@ -104,10 +104,10 @@ class Cube {
      * @param z Position of desired block on cube along z-axis.
      * @return The position of the block.
      */
-    inline glm::vec3& GetPos(int x, int y, int z) { 
-      return blocks[x][y][z]->GetPos(); 
+    inline glm::vec3& GetPos(int x, int y, int z) {
+      return blocks[x][y][z]->GetPos();
     }
-    
+
     /**
      * Get the rotation matrix of a block on a cube.
      *
@@ -116,8 +116,8 @@ class Cube {
      * @param z Position of desired block on cube along z-axis.
      * @return The rotation matrix of the block.
      */
-    inline glm::mat4& GetRot(int x, int y, int z) { 
-      return blocks[x][y][z]->GetRot(); 
+    inline glm::mat4& GetRot(int x, int y, int z) {
+      return blocks[x][y][z]->GetRot();
     }
 
     /**
@@ -125,10 +125,10 @@ class Cube {
      *
      * @return The position on the cube of the selected block.
      */
-    inline glm::vec3& GetSelected() { 
-      return selected; 
+    inline glm::vec3& GetSelected() {
+      return selected;
     }
-    
+
     /**
      * Descructor for a cube.
      */
@@ -148,4 +148,4 @@ class Cube {
     glm::vec3 selected;
 };
 
-#endif // CUBE_H
+#endif  // CUBE_H

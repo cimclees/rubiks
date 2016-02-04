@@ -42,4 +42,4 @@ class Texture {
     GLuint* m_textures;
 };
 
-#endif // TEXTURE_H
+#endif  // TEXTURE_H

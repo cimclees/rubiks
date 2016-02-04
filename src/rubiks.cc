@@ -27,7 +27,7 @@
  * @param mouseSens The desired mouse sensitivity (to be set).
  * @return True if loading is successful, otherwise false.
  */
-bool LoadSettings(int& cubeSize, int& winHeight, 
+bool LoadSettings(int& cubeSize, int& winHeight,
                   int& winWidth, float& mouseSens);
 
 /**
@@ -39,7 +39,7 @@ bool LoadSettings(int& cubeSize, int& winHeight,
  * @cube Cube object on which to carry out indicated operations.
  * @param mouseSens Mouse sensitivity.
  */
-void ProcessInput(bool& quit, bool& rightClick, Camera& camera, 
+void ProcessInput(bool& quit, bool& rightClick, Camera& camera,
                   Cube& cube, float& mouseSens);
 
 /**
@@ -65,14 +65,14 @@ int main() {
   // Initialize shader.
   Shader shader("./data/shader/basicShader");
   // Create a camera object to manipulate positional perspective.
-  Camera camera(70.0f, static_cast<float>(winWidth) / winHeight, 0.01f, 
+  Camera camera(70.0f, static_cast<float>(winWidth) / winHeight, 0.01f,
                 1000.0f, (cubeSize + 1.0f) * 3.0f);
   // Create a transform object to perform rotational and positional transforms
   // on block objects.
   Transform transform;
   // Create a cube object of desired size.
   Cube cube(cubeSize);
-  
+
   bool quit       = false,  // True when the user has closed the window.
        rightClick = false;  // True when right mouse button is held down.
   // Iterate over drawn frames.
@@ -94,13 +94,13 @@ int main() {
   return 0;
 }
 
-bool LoadSettings(int& cubeSize, int& winHeight, 
+bool LoadSettings(int& cubeSize, int& winHeight,
                   int& winWidth, float& mouseSens) {
   cubeSize = 0;
   winHeight = 0;
   winWidth = 0;
   mouseSens = 0.0f;
-  
+
   std::ifstream settingsFile("settings.conf");
   std::string line;
   int lineNum = 1;
@@ -119,11 +119,11 @@ bool LoadSettings(int& cubeSize, int& winHeight,
         lineNum++;
       }
     } catch (std::exception& e) {
-      cubeSize = 0; // Ensure function returns failure status.
+      cubeSize = 0;  // Ensure function returns failure status.
     }
     settingsFile.close();
   }
-  
+
   if (cubeSize > 0 && winHeight > 0 && winWidth > 0 && mouseSens > 0) {
     return true;
   } else {
@@ -131,7 +131,7 @@ bool LoadSettings(int& cubeSize, int& winHeight,
   }
 }
 
-void ProcessInput(bool& quit, bool& rightClick, Camera& camera, 
+void ProcessInput(bool& quit, bool& rightClick, Camera& camera,
                   Cube& cube, float& mouseSens) {
   SDL_Event event;
   while (SDL_PollEvent(&event)) {
@@ -176,8 +176,10 @@ void ProcessInput(bool& quit, bool& rightClick, Camera& camera,
       case SDL_MOUSEMOTION: {
         if (rightClick) {
           camera.GetHoriz() += (event.motion.xrel * -1 * mouseSens);
-          if ((event.motion.yrel < 0 && sinf(camera.GetVert()) > (-PI / 4.0f)) ||
-              (event.motion.yrel > 0 && sinf(camera.GetVert()) < (PI / 4.0f))) {
+          if ((event.motion.yrel < 0 &&
+               sinf(camera.GetVert()) > (-PI / 4.0f)) ||
+              (event.motion.yrel > 0 &&
+               sinf(camera.GetVert()) < (PI / 4.0f))) {
             camera.GetVert() += (event.motion.yrel * mouseSens);
           }
         }

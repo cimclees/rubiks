@@ -32,7 +32,7 @@ void Camera::PositionCam() {
     m_position.y = m_dist * sinVert;
     m_forward.y = -sinVert;
 }
-    
+
 glm::vec3 Camera::GetPickRay(float x, float y) {
   glm::mat4 view = glm::lookAt(m_position, m_position + m_forward, m_up);
   glm::vec4 viewport = glm::vec4(0, 0, 800, 600);
