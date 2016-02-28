@@ -52,7 +52,7 @@ int main() {
   if (!LoadSettings(cubeSize, winHeight, winWidth, mouseSens)) {
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
                              "Error",
-                             "Failed to load settings form \"settings.conf\"",
+                             "Failed to load settings from \"settings.conf\"",
                              NULL);
     return 1;
   }
